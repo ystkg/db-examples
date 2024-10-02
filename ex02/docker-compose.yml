@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: pgdbconnpool
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_PASSWORD: expasswd
+      POSTGRES_INITDB_ARGS: "--no-locale -E UTF-8"
+      TZ: Asia/Tokyo

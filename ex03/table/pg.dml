@@ -1,0 +1,4 @@
+INSERT INTO staff (id, name, role) VALUES
+  (1, 'Alice', 'issuer'),
+  (2, 'Bob', 'audience'),
+  (3, 'Carol', 'third');

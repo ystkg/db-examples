@@ -1,0 +1,5 @@
+CREATE TABLE staff (
+  id INT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  role VARCHAR(100) NOT NULL
+);
