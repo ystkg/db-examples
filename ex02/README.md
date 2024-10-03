@@ -76,7 +76,7 @@ https://github.com/ystkg/db-examples/blob/5fa9f3fff403198957ccabf6cb54be5820f469
 
 確認するプールの各ステータスです。
 
-https://github.com/golang/go/blob/go1.23.2/src/database/sql/sql.go#L1193-L1196
+https://github.com/golang/go/blob/ed07b321aef7632f956ce991dd10fdd7e1abd827/src/database/sql/sql.go#L1193-L1196
 
 ```Shell
 go run . ex0202
@@ -89,9 +89,11 @@ go run . ex0202
 
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
 
-## *sql.DB/*sql.Tx
+## \*sql.DB/*sql.Tx
 
 - CommitもしくはRollbackでプールに返却される。*sql.Txに `Close()` はない
+
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0203.go#L12-L20
 
 ```Shell
 go run . ex0203
@@ -102,6 +104,8 @@ go run . ex0203
 {"time":"2024-10-03T18:48:28.336647909+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0204.go#L12-L18
+
 ```Shell
 go run . ex0204
 ```
@@ -111,10 +115,12 @@ go run . ex0204
 {"time":"2024-10-03T18:48:29.982618874+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-## *sql.Conn/*sql.Tx
+## \*sql.Conn/*sql.Tx
 
 - CommitもしくはRollbackでプールに返却されない。*sql.Connの `Close()` で返却
-- *sql.DBでBeginTxした場合と*sql.ConnでBeginTxした場合とで異なる
+- \*sql.DBでBeginTxした場合と*sql.ConnでBeginTxした場合とで異なる
+
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0205.go#L12-L23
 
 ```Shell
 go run . ex0205
@@ -132,6 +138,8 @@ go run . ex0205
 
 - 実行毎にプールに返却
 
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0206.go#L12-L18
+
 ```Shell
 go run . ex0206
 ```
@@ -144,6 +152,8 @@ go run . ex0206
 ## DB.QueryRowContext
 
 - row.Scan()でプールに返却
+
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0207.go#L12-L20
 
 ```Shell
 go run . ex0207
@@ -159,6 +169,8 @@ go run . ex0207
 - `rows.Next()` が false になったタイミングでプールに返却
 - 処理の流れを追いやすくするため、for文を使わずにループを展開
 
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0208.go#L14-L32
+
 ```Shell
 go run . ex0208
 ```
@@ -169,6 +181,8 @@ go run . ex0208
 ```
 
 - もし仮に false になるまで `rows.Next()` を呼ばなかった場合ですが、そのときは `rows.Close()` のタイミングで返却されました。
+
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0209.go#L14-L26
 
 ```Shell
 go run . ex0209
@@ -183,6 +197,8 @@ go run . ex0209
 
 - DB.Closeはプールにあるコネクションをクローズする
 
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0210.go#L9-L21
+
 ```Shell
 go run . ex0210
 ```
@@ -193,6 +209,8 @@ go run . ex0210
 ```
 
 - クローズされるコネクションはIdleのみで、InUseはClose()でプールに戻されることなく、直接クローズされる
+
+https://github.com/ystkg/db-examples/blob/c182dd88d6cbb0f125eae9d73345a3b3a4fa44cb/ex02/ex0211.go#L9-L35
 
 ```Shell
 go run . ex0211
