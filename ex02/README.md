@@ -11,25 +11,25 @@
 
 ### データベースのコンテナ起動
 
-```Shell
+```shell
 docker-compose up -d
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose up -d
 ```
 
 ### データベースのコンテナ削除
 
-```Shell
+```shell
 docker-compose down
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose down
 ```
 
@@ -49,7 +49,7 @@ erDiagram
 
 ## サンプルコードの実行
 
-```Shell
+```shell
 go run . サンプル名
 ```
 
@@ -57,7 +57,7 @@ go run . サンプル名
 
 例
 
-```Shell
+```shell
 go run . ex0201
 ```
 
@@ -78,7 +78,7 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 
 https://github.com/golang/go/blob/ed07b321aef7632f956ce991dd10fdd7e1abd827/src/database/sql/sql.go#L1193-L1196
 
-```Shell
+```shell
 go run . ex0202
 ```
 
@@ -95,7 +95,7 @@ go run . ex0202
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0203.go#L12-L20
 
-```Shell
+```shell
 go run . ex0203
 ```
 
@@ -106,7 +106,7 @@ go run . ex0203
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0204.go#L12-L18
 
-```Shell
+```shell
 go run . ex0204
 ```
 
@@ -122,7 +122,7 @@ go run . ex0204
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0205.go#L12-L23
 
-```Shell
+```shell
 go run . ex0205
 ```
 
@@ -140,7 +140,7 @@ go run . ex0205
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0206.go#L12-L18
 
-```Shell
+```shell
 go run . ex0206
 ```
 
@@ -155,7 +155,7 @@ go run . ex0206
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0207.go#L12-L20
 
-```Shell
+```shell
 go run . ex0207
 ```
 
@@ -171,7 +171,7 @@ go run . ex0207
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0208.go#L14-L32
 
-```Shell
+```shell
 go run . ex0208
 ```
 
@@ -184,7 +184,7 @@ go run . ex0208
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0209.go#L14-L26
 
-```Shell
+```shell
 go run . ex0209
 ```
 
@@ -199,7 +199,7 @@ go run . ex0209
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0210.go#L9-L21
 
-```Shell
+```shell
 go run . ex0210
 ```
 
@@ -212,7 +212,7 @@ go run . ex0210
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0211.go#L9-L35
 
-```Shell
+```shell
 go run . ex0211
 ```
 

@@ -12,25 +12,25 @@
 
 ### データベースのコンテナ起動
 
-```Shell
+```shell
 docker-compose up -d
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose up -d
 ```
 
 ### データベースのコンテナ削除
 
-```Shell
+```shell
 docker-compose down
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose down
 ```
 
@@ -51,7 +51,7 @@ erDiagram
 
 ## サンプルコードの実行
 
-```Shell
+```shell
 go run . サンプル名
 ```
 
@@ -59,7 +59,7 @@ go run . サンプル名
 
 例
 
-```Shell
+```shell
 go run . ex01mysql01
 ```
 
@@ -68,7 +68,7 @@ go run . ex01mysql01
 
 例
 
-```Shell
+```shell
 go run . ex01pg01 pq
 ```
 
@@ -81,7 +81,7 @@ go run . ex01pg01 pq
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql01.go#L11-L59
 
-```Shell
+```shell
 go run . ex01mysql01
 ```
 
@@ -97,7 +97,7 @@ INSERTを実行した `ExecContext` の戻り値にはサーバ側で採番さ�
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql02.go#L23-L51
 
-```Shell
+```shell
 go run . ex01mysql02
 ```
 
@@ -114,7 +114,7 @@ go run . ex01mysql02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql03.go#L25-L79
 
-```Shell
+```shell
 go run . ex01mysql03
 ```
 
@@ -137,7 +137,7 @@ go run . ex01mysql03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg01.go#L11-L59
 
-```Shell
+```shell
 go run . ex01pg01
 ```
 
@@ -153,7 +153,7 @@ go run . ex01pg01
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg02.go#L23-L34
 
-```Shell
+```shell
 go run . ex01pg02
 ```
 
@@ -167,7 +167,7 @@ go run . ex01pg02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg03.go#L23-L56
 
-```Shell
+```shell
 go run . ex01pg03
 ```
 
@@ -182,7 +182,7 @@ go run . ex01pg03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg04.go#L25-L65
 
-```Shell
+```shell
 go run . ex01pg04
 ```
 
@@ -201,7 +201,7 @@ go run . ex01pg04
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg05.go#L25-L67
 
-```Shell
+```shell
 go run . ex01pg05
 ```
 
@@ -219,7 +219,7 @@ go run . ex01pg05
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg06.go#L25-L78
 
-```Shell
+```shell
 go run . ex01pg06
 ```
 

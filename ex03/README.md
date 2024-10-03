@@ -12,25 +12,25 @@
 
 ### データベースのコンテナ起動
 
-```Shell
+```shell
 docker-compose up -d
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose up -d
 ```
 
 ### データベースのコンテナ削除
 
-```Shell
+```shell
 docker-compose down
 ```
 
 もしくはDocker Composeのプラグイン版なら
 
-```Shell
+```shell
 docker compose down
 ```
 
@@ -82,7 +82,7 @@ erDiagram
 
 ## サンプルコードの実行
 
-```Shell
+```shell
 go run . サンプル名
 ```
 
@@ -90,7 +90,7 @@ go run . サンプル名
 
 例
 
-```Shell
+```shell
 go run . ex03mysql01
 ```
 
@@ -99,7 +99,7 @@ go run . ex03mysql01
 
 例
 
-```Shell
+```shell
 go run . ex03pg01 pq
 ```
 
@@ -111,7 +111,7 @@ go run . ex03pg01 pq
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
-```Shell
+```shell
 go run . ex03pg01
 ```
 
@@ -128,7 +128,7 @@ go run . ex03pg01
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
-```Shell
+```shell
 go run . ex03pg02
 ```
 
@@ -147,7 +147,7 @@ go run . ex03pg02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
-```Shell
+```shell
 go run . ex03pg03
 ```
 
@@ -164,7 +164,7 @@ go run . ex03pg03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg04.go#L16-L25
 
-```Shell
+```shell
 go run . ex03pg04
 ```
 
@@ -180,7 +180,7 @@ go run . ex03pg04
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
-```Shell
+```shell
 go run . ex03pg05
 ```
 
@@ -197,7 +197,7 @@ go run . ex03pg05
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
-```Shell
+```shell
 go run . ex03pg06
 ```
 
@@ -214,7 +214,7 @@ go run . ex03pg06
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
-```Shell
+```shell
 go run . ex03pg01 pq
 ```
 
@@ -231,7 +231,7 @@ go run . ex03pg01 pq
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
-```Shell
+```shell
 go run . ex03pg02 pq
 ```
 
@@ -250,7 +250,7 @@ go run . ex03pg02 pq
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
-```Shell
+```shell
 go run . ex03pg05 pq
 ```
 
@@ -267,7 +267,7 @@ https://github.com/lib/pq/blob/2a217b94f5ccd3de31aec4152a541b9ff64bed05/conn.go#
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
-```Shell
+```shell
 go run . ex03pg06 pq
 ```
 
@@ -307,7 +307,7 @@ https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/conn.
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql01.go#L8-L41
 
-```Shell
+```shell
 go run . ex03mysql01
 ```
 
@@ -324,7 +324,7 @@ go run . ex03mysql01
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql02.go#L15-L35
 
-```Shell
+```shell
 go run . ex03mysql02
 ```
 
@@ -343,7 +343,7 @@ go run . ex03mysql02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
 
-```Shell
+```shell
 go run . ex03mysql03
 ```
 
@@ -358,7 +358,7 @@ go run . ex03mysql03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql04.go#L16-L32
 
-```Shell
+```shell
 go run . ex03mysql04
 ```
 
@@ -375,7 +375,7 @@ go run . ex03mysql04
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql05.go#L15-L24
 
-```Shell
+```shell
 go run . ex03mysql05
 ```
 
