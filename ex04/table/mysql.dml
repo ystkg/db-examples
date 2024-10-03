@@ -1,0 +1,5 @@
+INSERT INTO shop (name) VALUES
+  ('shop1st'),
+  ('shop2nd'),
+  ('shop3rd'),
+  ('shop4th');
