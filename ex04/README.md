@@ -83,6 +83,18 @@ erDiagram
     }
 ```
 
+## 1相コミット
+
+## ExecContext
+
+## コマンドライン
+
+### PostgreSQL
+
+### MySQL
+
+## 2相コミット
+
 ## 分離
 
 ### PostgreSQL
