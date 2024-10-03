@@ -80,6 +80,29 @@ erDiagram
     }
 ```
 
+## サンプルコードの実行
+
+```Shell
+go run . サンプル名
+```
+
+- サンプル名は大文字小文字の区別なし
+
+例
+
+```Shell
+go run . ex03mysql01
+```
+
+- PostgreSQLのサンプルはSQLドライバにデフォルトで `pgx` を使う
+- `pq` を使う場合はパラメータで指定する
+
+例
+
+```Shell
+go run . ex03pq01 pq
+```
+
 ## PostgreSQL
 
 ## MySQL

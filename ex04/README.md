@@ -83,6 +83,20 @@ erDiagram
     }
 ```
 
+## サンプルコードの実行
+
+```Shell
+go run . サンプル名
+```
+
+- サンプル名は大文字小文字の区別なし
+
+例
+
+```Shell
+go run . ex04tx01
+```
+
 ## 1相コミット
 
 ## ExecContext

@@ -69,12 +69,12 @@ func setupPg(ctx context.Context) (*sql.DB, error) {
 
 func stats(db *sql.DB, msg string) {
 	stats := db.Stats()
-	slog.Info(msg, "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle)
+	slog.Info(fmt.Sprintf("%-6s", msg), "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle)
 }
 
 func statsErr(db *sql.DB, msg string, err error) {
 	stats := db.Stats()
-	slog.Info(msg, "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle, "err", err)
+	slog.Info(fmt.Sprintf("%-6s", msg), "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle, "err", err)
 }
 
 func main() {
@@ -117,6 +117,10 @@ func main() {
 		err = Ex0208(ctx, db)
 	case strings.EqualFold(exname, "Ex0209"):
 		err = Ex0209(ctx, db)
+	case strings.EqualFold(exname, "Ex0210"):
+		err = Ex0210(ctx, db)
+	case strings.EqualFold(exname, "Ex0211"):
+		err = Ex0211(ctx, db)
 	default:
 		err = fmt.Errorf("unknown:%s", exname)
 	}
