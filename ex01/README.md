@@ -69,7 +69,7 @@ go run . ex01mysql01
 例
 
 ```Shell
-go run . ex01pq01 pq
+go run . ex01pg01 pq
 ```
 
 ## MySQL

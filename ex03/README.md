@@ -4,7 +4,7 @@
 
 - SQLインジェクションのリスクを回避する方法として、プレースホルダ（placeholder）とプリペアドステートメント（prepared statement）を用いられている
 - Goの標準ライブラリを探してみるとdatabase/sqlパッケージに `PrepareContext()` との関連性を整理
-- SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分なバリデーションがされていることを前提とする
+- SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分にバリデーションされていることを前提とする
 
 ## Docker
 
@@ -100,10 +100,42 @@ go run . ex03mysql01
 例
 
 ```Shell
-go run . ex03pq01 pq
+go run . ex03pg01 pq
 ```
 
 ## PostgreSQL
+
+### PrepareContext
+
+- PrepareContextを使う
+
+```Shell
+go run . ex03pg01
+```
+
+```log
+2024-09-12 19:34:13.280 JST [1554] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-09-12 19:34:13.280 JST [1554] DETAIL:  parameters: $1 = 'Bob'
+2024-09-12 19:34:13.281 JST [1554] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-09-12 19:34:13.281 JST [1554] DETAIL:  parameters: $1 = 'Carol'
+```
+
+### QueryContext
+
+- PrepareContextを使わずにQueryContextを使う
+
+```Shell
+go run . ex03pg02
+```
+
+```log
+2024-09-12 19:35:14.457 JST [1560] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-09-12 19:35:14.457 JST [1560] DETAIL:  parameters: $1 = 'Bob'
+2024-09-12 19:35:14.458 JST [1560] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-09-12 19:35:14.458 JST [1560] DETAIL:  parameters: $1 = 'Carol'
+```
+
+- PrepareContextを使わなくても、プリペアドステートメントで実行されている
 
 ## MySQL
 

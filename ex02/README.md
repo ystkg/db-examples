@@ -217,13 +217,13 @@ go run . ex0211
 ```
 
 ```json
-{"time":"2024-10-03T19:18:47.339110632+09:00","level":"INFO","msg":"before","Open":5,"InUse":3,"Idle":2}
-{"time":"2024-10-03T19:18:47.339325672+09:00","level":"INFO","msg":"after ","Open":3,"InUse":3,"Idle":0}
-{"time":"2024-10-03T19:18:47.339404192+09:00","level":"INFO","msg":"0     ","Open":2,"InUse":2,"Idle":0}
-{"time":"2024-10-03T19:18:47.339476971+09:00","level":"INFO","msg":"1     ","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:18:47.339512448+09:00","level":"INFO","msg":"2     ","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:18:47.339519552+09:00","level":"INFO","msg":"3     ","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:18:47.339563796+09:00","level":"INFO","msg":"4     ","Open":0,"InUse":0,"Idle":0}
+{"time":"2024-10-03T19:33:07.299576312+09:00","level":"INFO","msg":"before","Open":5,"InUse":3,"Idle":2}
+{"time":"2024-10-03T19:33:07.299771464+09:00","level":"INFO","msg":"after ","Open":3,"InUse":3,"Idle":0}
+{"time":"2024-10-03T19:33:07.299887676+09:00","level":"INFO","msg":"conn 0","Open":2,"InUse":2,"Idle":0}
+{"time":"2024-10-03T19:33:07.300011412+09:00","level":"INFO","msg":"conn 1","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-03T19:33:07.300026982+09:00","level":"INFO","msg":"conn 2","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-03T19:33:07.300033695+09:00","level":"INFO","msg":"conn 3","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-03T19:33:07.300089802+09:00","level":"INFO","msg":"conn 4","Open":0,"InUse":0,"Idle":0}
 ```
 
 ## 関連ドキュメント

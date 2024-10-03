@@ -20,19 +20,19 @@ func Ex0211(ctx context.Context, db *sql.DB) error {
 	stats(db, "after")
 
 	conn[0].Close() // プールに返却されず、直接クローズされる
-	stats(db, "0")
+	stats(db, "conn 0")
 
 	conn[1].Close() // プールに返却されず、直接クローズされる
-	stats(db, "1")
+	stats(db, "conn 1")
 
 	conn[2].Close() // ErrConnDone
-	stats(db, "2")
+	stats(db, "conn 2")
 
 	conn[3].Close() // ErrConnDone
-	stats(db, "3")
+	stats(db, "conn 3")
 
 	conn[4].Close() // プールに返却されず、直接クローズされる
-	stats(db, "4")
+	stats(db, "conn 4")
 
 	return nil
 }
