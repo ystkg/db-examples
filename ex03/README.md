@@ -2,7 +2,7 @@
 
 ## 概要
 
-- SQLインジェクションのリスクを回避する方法として、プレースホルダ（placeholder）とプリペアドステートメント（prepared statement）を用いられている
+- SQLインジェクションのリスクを回避する対策として、プレースホルダ（placeholder）とプリペアドステートメント（prepared statement）が用いる方法がとられる
 - Goの標準ライブラリ（database/sqlパッケージ）にある `PrepareContext()` との関連性を整理
 - SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分にバリデーションされていることを前提とする
 
@@ -44,7 +44,7 @@ docker compose down
 
 #### クエリーログの参照
 
-標準エラー（stderr）に出力される
+クエリーログは、標準エラー（stderr）に出力される
 
 ```shell
 docker logs -f pgstmt
@@ -62,7 +62,7 @@ docker container exec -e MYSQL_PWD=expasswd mysqlstmt mysql stmtdb -e "set globa
 
 #### クエリーログの参照
 
-general_log_fileに設定したファイルに出力される
+クエリーログは、general_log_fileに設定したファイルに出力される
 
 ```shell
 docker container exec mysqlstmt tail -f /var/lib/mysql/query.log
@@ -99,7 +99,7 @@ go run . ex03mysql01
 - PostgreSQLのサンプルはSQLドライバにデフォルトで `pgx` を使う
 - `pq` を使う場合はパラメータで指定する
 
-例
+`pq` を指定する例
 
 ```shell
 go run . ex03pg01 pq
@@ -109,8 +109,8 @@ go run . ex03pg01 pq
 
 ### PrepareContext
 
-- PrepareContextを使う
-- クエリーログを確認する目的のため、レコードの取得処理は省略し、rowsは即 `Close()`
+- PrepareContextを使ったときのクエリーログを確認
+- クエリーログの確認が目的のため、レコードの取得処理は省略し、rowsは即 `Close()`
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
@@ -129,7 +129,7 @@ go run . ex03pg01
 
 ### QueryContext
 
-- PrepareContextを使わずにQueryContextを使う
+- PrepareContextを使わずにQueryContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
@@ -148,7 +148,7 @@ go run . ex03pg02
 
 ### 文字列操作
 
-- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立てる
+- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
@@ -165,7 +165,7 @@ go run . ex03pg03
 
 ### 不正なパラメータ
 
-- 実際に不正なパラメータを与えて確認する
+- 実際に不正なパラメータを与えて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg04.go#L16-L25
 
@@ -181,7 +181,7 @@ go run . ex03pg04
 
 ### プレースホルダなし
 
-- プレースホルダを使わないままで、PrepareContextを使う
+- プレースホルダを使わないままで、PrepareContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
@@ -197,7 +197,7 @@ go run . ex03pg05
 
 ### プレースホルダあり
 
-- プレースホルダを使って不正なパラメータを与えて確認する
+- プレースホルダを使って不正なパラメータを与えて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
@@ -216,7 +216,7 @@ go run . ex03pg06
 
 ### PrepareContext
 
-- SQLドライバを pq に変更してPrepareContextを使う
+- SQLドライバを pq にしてPrepareContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
@@ -235,7 +235,7 @@ go run . ex03pg01 pq
 
 ### QueryContext
 
-- QueryContextを使う
+- SQLドライバを pq にしてQueryContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
@@ -254,7 +254,7 @@ go run . ex03pg02 pq
 
 ### プレースホルダなし
 
-- プレースホルダを使わず、PrepareContextを使う
+- SQLドライバを pq にしてプレースホルダを使わず、PrepareContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
@@ -269,11 +269,11 @@ go run . ex03pg05 pq
 
 - プレースホルダが１つもないとプリペアドステートメントは使われない
 
-https://github.com/lib/pq/blob/2a217b94f5ccd3de31aec4152a541b9ff64bed05/conn.go#L900-L904
+https://github.com/lib/pq/blob/v1.10.9/conn.go#L900-L904
 
 ### プレースホルダあり
 
-- プレースホルダを使って不正なパラメータを与えて確認する
+- SQLドライバを pq にしてプレースホルダを使って不正なパラメータを与えて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
@@ -295,27 +295,27 @@ go run . ex03pg06 pq
 
 pgxではプレフィックス（ "stmt_" ）の後ろの部分がSQLのダイジェストになっていて、同一のSQLであれば同じ名前になる。
 
-https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/conn.go#L339-L340
+https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L339-L340
 
 pqでは `PrepareContext()` を使った際に番号が振られる。
 
-https://github.com/lib/pq/blob/2a217b94f5ccd3de31aec4152a541b9ff64bed05/conn.go#L665-L668
+https://github.com/lib/pq/blob/v1.10.9/conn.go#L665-L668
 
 また、pgxではデフォルトのキャッシュするモードが使われているとき"stmtcache_"で始まる名前になる。
 
-https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/internal/stmtcache/stmtcache.go#L13-L16
+https://github.com/jackc/pgx/blob/v5.7.1/internal/stmtcache/stmtcache.go#L13-L16
 
 pgxでは、このモードをオプションのdefault_query_exec_modeで変更することができる。
 
-https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/conn.go#L194-L203
+https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L194-L203
 
-https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/conn.go#L629-L668
+https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L629-L668
 
 ## MySQL
 
 ### PrepareContext
 
-- MySQLでPrepareContextを使う
+- MySQLでPrepareContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql01.go#L8-L41
 
@@ -334,7 +334,7 @@ go run . ex03mysql01
 
 ### QueryContext
 
-- QueryContextを使う
+- MySQLでQueryContextを使ったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql02.go#L15-L35
 
@@ -356,7 +356,7 @@ go run . ex03mysql02
 
 ### 文字列操作
 
-- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立てる
+- MySQLでパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
 
@@ -373,7 +373,7 @@ go run . ex03mysql03
 
 ### 不正なパラメータ
 
-- 実際に不正なパラメータを与えて確認する
+- 実際に不正なパラメータを与えて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql04.go#L16-L32
 
@@ -392,7 +392,7 @@ go run . ex03mysql04
 
 ### プレースホルダ
 
-- プレースホルダを使って不正なパラメータを与えて確認する
+- プレースホルダを使って不正なパラメータを与えて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql05.go#L15-L24
 

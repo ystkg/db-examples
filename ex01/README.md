@@ -68,7 +68,7 @@ go run . ex01mysql01
 - PostgreSQLのサンプルはSQLドライバにデフォルトで `pgx` を使う
 - `pq` を使う場合はパラメータで指定する
 
-例
+ `pq` を指定する例
 
 ```shell
 go run . ex01pg01 pq
@@ -135,7 +135,7 @@ go run . ex01mysql03
 
 ### INSERT/SELECT/DELETE
 
-- プレースホルダには `?` ではなく `$1,$2,・・・` を使う
+- PostgreSQLでは、プレースホルダに `?` ではなく `$1,$2,・・・` を使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg01.go#L11-L59
 
@@ -149,7 +149,7 @@ go run . ex01pg01
 
 ### LastInsertId
 
-- `LastInsertId()` がサポートされていない
+- PostgreSQLでは、 `LastInsertId()` がサポートされていない
   - `pgx` と `pq` のどちらSQLドライバでもサポートされてない
 - `RowsAffected()` でレコード数の取得はできる
 
@@ -165,7 +165,7 @@ go run . ex01pg02
 
 ### RETURNING
 
-- サーバ側で採番されたidの取得には `RETURNING` で `QueryRowContext` を使う
+- PostgreSQLでは、サーバ側で採番されたidの取得には `RETURNING` で `QueryRowContext` を使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg03.go#L23-L56
 

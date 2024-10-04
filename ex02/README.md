@@ -3,7 +3,7 @@
 ## 概要
 
 - Goの標準ライブラリの `database/sql` で中心となる sql.DB ではデフォルトでコネクションプールが使われるようになっていて明示的な操作は不要
-- プールに返却されるタイミングを整理
+- どのタイミングでプールに返却されているのかについてパターンを整理
 
 ## Docker
 
@@ -65,20 +65,13 @@ go run . ex0201
 
 ## *sql.Conn
 
-- *sql.Conn の `Close()` でプールに返却
-- トランザクションありでINSERTを連続して2回実行
-- 実装の全体
+- *sql.Conn の `Close()` でプールに返却されるパターン。トランザクションありでINSERTを連続して2回実行する例
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0201.go#L11-L59
 
-- コネクションプールの状態をログ出力させて確認
-- 処理の流れを追いやすくするため、関心事だけに絞る
+- 処理の流れを追いやすくするため、関心事だけに絞って、コネクションプールの状態をログ出力させて確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0202.go#L9-L24
-
-確認するプールの各ステータスです。
-
-https://github.com/golang/go/blob/ed07b321aef7632f956ce991dd10fdd7e1abd827/src/database/sql/sql.go#L1193-L1196
 
 ```shell
 go run . ex0202
@@ -91,10 +84,11 @@ go run . ex0202
 
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
 
+https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196
+
 ## \*sql.DB/*sql.Tx
 
-- CommitもしくはRollbackでプールに返却される
-  - *sql.Txに `Close()` はない
+- CommitもしくはRollbackでプールに返却されるパータン（*sql.Txに `Close()` はない）
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0203.go#L12-L20
 
@@ -124,8 +118,8 @@ go run . ex0204
 
 ## \*sql.Conn/*sql.Tx
 
-- CommitもしくはRollbackでプールに返却されない。*sql.Connの `Close()` で返却
 - \*sql.DBでBeginTxした場合と*sql.ConnでBeginTxした場合とで異なる
+  - CommitもしくはRollbackではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0205.go#L12-L23
 
@@ -143,7 +137,7 @@ go run . ex0205
 
 ## DB.ExecContext
 
-- 実行毎にプールに返却
+- 実行毎にプールに返却されるパータン
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0206.go#L12-L18
 
@@ -160,7 +154,7 @@ go run . ex0206
 
 ## DB.QueryRowContext
 
-- row.Scan()でプールに返却
+- row.Scan()でプールに返却されるパータン
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0207.go#L12-L20
 
@@ -175,8 +169,8 @@ go run . ex0207
 
 ## DB.QueryContext
 
-- `rows.Next()` が false になったタイミングでプールに返却
-- 処理の流れを追いやすくするため、for文を使わずにループを展開
+- `rows.Next()` が false になったタイミングでプールに返却されるパータン
+  - 処理の流れを追いやすくするため、for文を使わずにループを展開
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0208.go#L14-L32
 
@@ -189,7 +183,7 @@ go run . ex0208
 {"time":"2024-09-10T12:14:48.961880508+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-- もし仮に false になるまで `rows.Next()` を呼ばなかった場合ですが、そのときは `rows.Close()` のタイミングで返却されました。
+- もし仮に false になるまで `rows.Next()` を呼ばなかった場合ですが、そのときは `rows.Close()` のタイミングで返却されることになる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0209.go#L14-L26
 
@@ -239,11 +233,11 @@ go run . ex0211
 
 ## プールの制御
 
-プールに戻すタイミングを明示的に制御する用途向けとして sql.Conn が用意されいる
+デフォルトでコネクションプールが使われるようになっているが、明示的にプールに戻すタイミングを制御する用途向けとして sql.Conn が用意されいる
 
-https://github.com/golang/go/blob/69234ded30614a471c35cef5d87b0e0d3c136cd9/src/database/sql/sql.go#L2139-L2146
+https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L2139-L2146
 
-https://github.com/golang/go/blob/69234ded30614a471c35cef5d87b0e0d3c136cd9/src/database/sql/sql.go#L1935-L1937
+https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1935-L1937
 
 ## 関連ドキュメント
 

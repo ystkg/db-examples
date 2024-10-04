@@ -48,7 +48,7 @@ docker compose down
 
 #### クエリーログの参照
 
-標準エラー（stderr）に出力される
+クエリーログは、標準エラー（stderr）に出力される
 
 ```shell
 docker logs -f pgstmt
@@ -70,7 +70,7 @@ docker container exec -t pg2pc psql -U postgres -c 'SELECT * FROM pg_prepared_xa
 
 #### クエリーログの参照
 
-general_log_fileに設定したファイルに出力される
+クエリーログは、general_log_fileに設定したファイルに出力される
 
 ```shell
 docker container exec pg2pc tail -f /var/lib/mysql/query.log
@@ -175,7 +175,7 @@ go run . ex04tx02
 {"time":"2024-09-18T17:53:36.846321949+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
 ```
 
-- PostgreSQLはExecContextを使って同じようにトランザクション制御できることが確認できる
+- PostgreSQLはExecContextを使っても同じようにトランザクション制御できることが確認できる
 
 ```log
 2024-09-18 17:53:36.837 JST [320] LOG:  statement: begin
@@ -198,7 +198,7 @@ go run . ex04tx02
 
 ### PostgreSQL
 
-psqlによる接続でコマンドを確認
+psqlによる接続でトランザクションのコマンドを確認する
 
 #### 1相コミット
 
@@ -235,7 +235,7 @@ COMMIT PREPARED
 
 ### MySQL
 
-MySQLモニタによる接続でコマンドを確認
+MySQLモニタによる接続でトランザクションのコマンドを確認する
 
 #### 1相コミット
 
@@ -285,7 +285,7 @@ Query OK, 0 rows affected (0.01 sec)
 ### 一括
 
 - ExecContextを使って2相コミットを制御する
-- トランザクション識別子はPostgreSQL（ *transaction_id* ）とMySQL（ *xid* ）で別々にもできるが、ここでは揃える
+  - トランザクション識別子はPostgreSQL（ *transaction_id* ）とMySQL（ *xid* ）で別々にもできるが、ここでは揃える
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex04/ex04xa01.go#L37-L149
 
@@ -300,7 +300,7 @@ go run . ex04xa01
 
 ### 分離
 
-- セキュア状態（PREPAREまで）とCOMMITを別々に処理する
+- PREPAREの実行（セキュア状態にする）までとCOMMITの実行を別々に分ける
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex04/ex04xa02.go#L38-L74
 
@@ -320,22 +320,40 @@ go run . ex04xa02
 #### PostgreSQL
 
 - psqlを使ってCOMMITする
+- `pg_prepared_xacts` ビューでプリペアドトランザクションを確認できる
 
 ```shell
 postgres=# SELECT * FROM pg_prepared_xacts;
+ transaction |    gid     |           prepared            |  owner   | database
+-------------+------------+-------------------------------+----------+----------
+         751 | shop4th2pc | 2024-10-04 16:03:01.025574+09 | postgres | postgres
+(1 row)
+
 postgres=# commit prepared 'shop4th2pc';
+COMMIT PREPARED
 ```
 
 #### MySQL
 
 - MySQLモニタを使ってCOMMITする
+- `XA RECOVER` PREPARED 状態にある XA トランザクションを確認できる
 
 ```shell
 mysql> XA RECOVER;
++----------+--------------+--------------+------------+
+| formatID | gtrid_length | bqual_length | data       |
++----------+--------------+--------------+------------+
+|        1 |           10 |            0 | shop4th2pc |
++----------+--------------+--------------+------------+
+1 row in set (0.00 sec)
+
 mysql> XA COMMIT 'shop4th2pc';
+Query OK, 0 rows affected (0.00 sec)
 ```
 
 ## 各ステータス
+
+コマンドラインだけで一連の流れを確認する。見やすくするため、最初にTRUNCATEでテーブルのレコード全削除しておく。
 
 ### PostgreSQL
 
@@ -348,12 +366,18 @@ postgres=*# INSERT INTO shop (name) VALUES ('shopclisec');
 INSERT 0 1
 postgres=*# SELECT * FROM shop;
  id |    name    |          created_at
-----+------------+-------------------------------
-  7 | shopclisec | 2024-09-18 18:08:36.951491+09
+----+------------+------------------------------
+  2 | shopclisec | 2024-10-04 16:05:41.24442+09
 (1 row)
 
 postgres=*# prepare transaction 'sec';
 PREPARE TRANSACTION
+postgres=# SELECT * FROM pg_prepared_xacts;
+ transaction | gid |           prepared            |  owner   | database
+-------------+-----+-------------------------------+----------+----------
+         754 | sec | 2024-10-04 16:06:04.933499+09 | postgres | postgres
+(1 row)
+
 postgres=# SELECT * FROM shop;
  id | name | created_at
 ----+------+------------
@@ -363,19 +387,19 @@ postgres=# commit prepared 'sec';
 COMMIT PREPARED
 postgres=# SELECT * FROM shop;
  id |    name    |          created_at
-----+------------+-------------------------------
-  7 | shopclisec | 2024-09-18 18:08:36.951491+09
+----+------------+------------------------------
+  2 | shopclisec | 2024-10-04 16:05:41.24442+09
 (1 row)
 ```
 
-- `prepare transaction` をするとレコードが参照できなくなり、 `commit prepared` で再び参照できるようになる
-- `prepare transaction` と `commit prepared` の間ではSELECTだけでなく、INSERTなど更新も実行することができるが、その更新内容がセキュア状態になっているトランザクションに含まれることはなく、別トランザクションの扱い
+- `prepare transaction` を実行するとセキュア状態になっているレコードが参照できなくなり、 `commit prepared` で再び参照できるようになる
+- `prepare transaction` と `commit prepared` の間ではSELECTだけでなく、INSERTなど更新も実行することができるが、その更新内容がセキュア状態になっているトランザクションに含まれることはなく、別トランザクションの扱いになる
 
 ### MySQL
 
 ```shell
 mysql> TRUNCATE shop;
-Query OK, 0 rows affected (0.04 sec)
+Query OK, 0 rows affected (0.03 sec)
 
 mysql> XA BEGIN 'sec';
 Query OK, 0 rows affected (0.00 sec)
@@ -387,7 +411,7 @@ mysql> SELECT * FROM shop;
 +----+------------+---------------------+
 | id | name       | created_at          |
 +----+------------+---------------------+
-|  1 | shopclisec | 2024-09-18 18:10:13 |
+|  1 | shopclisec | 2024-10-04 16:07:32 |
 +----+------------+---------------------+
 1 row in set (0.00 sec)
 
@@ -397,7 +421,15 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> SELECT * FROM shop;
 ERROR 1399 (XAE07): XAER_RMFAIL: The command cannot be executed when global transaction is in the  IDLE state
 mysql> XA PREPARE 'sec';
-Query OK, 0 rows affected (0.00 sec)
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> XA RECOVER;
++----------+--------------+--------------+------+
+| formatID | gtrid_length | bqual_length | data |
++----------+--------------+--------------+------+
+|        1 |            3 |            0 | sec  |
++----------+--------------+--------------+------+
+1 row in set (0.00 sec)
 
 mysql> SELECT * FROM shop;
 Empty set (0.00 sec)
@@ -409,11 +441,12 @@ mysql> SELECT * FROM shop;
 +----+------------+---------------------+
 | id | name       | created_at          |
 +----+------------+---------------------+
-|  1 | shopclisec | 2024-09-18 18:10:13 |
+|  1 | shopclisec | 2024-10-04 16:07:32 |
 +----+------------+---------------------+
 1 row in set (0.00 sec)
 ```
 
+- `XA PREPARE` を実行するとセキュア状態になっているレコードが参照できなくなり、 `XA COMMIT` で再び参照できるようになる
 - `XA END` と `XA PREPARE` の間はIDLE状態なのでSELECTも実行できずエラーになる
 
 ## 関連ドキュメント
