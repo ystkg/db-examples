@@ -3,8 +3,8 @@
 ## 概要
 
 - Goのdatabase/sqlパッケージでPostgreSQLとMySQLを使う場合の主な違いについて `ExecContext` `QueryContext` `QueryRowContext` を中心に整理
-- 通常は、更新で`ExecContext` を使い、参照では `QueryContext` （もしくは `QueryRowContext` ）を使う
-- QueryContextを更新で使うケースを少し掘り下げる
+- 通常は、更新で`ExecContext` を使い、参照で `QueryContext` （もしくは `QueryRowContext` ）を使う
+- 更新で `QueryContext` （もしくは `QueryRowContext` ）を使うケースについても掘り下げる
 
 ## Docker
 
@@ -95,7 +95,7 @@ go run . ex01mysql01
 
 ### LastInsertId
 
-INSERTを実行した `ExecContext` の戻り値でサーバ側で採番されたidを取得
+- INSERTを実行した `ExecContext` の戻り値でサーバ側で採番されたidを取得する
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql02.go#L23-L51
 
@@ -112,7 +112,7 @@ go run . ex01mysql02
 
 ### 複数レコードのINSERT
 
-- 複数レコードをINSERT
+- 複数レコードをINSERTする
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql03.go#L25-L79
 

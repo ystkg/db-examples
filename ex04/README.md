@@ -18,7 +18,7 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 - MySQLはデフォルトで2相コミット（分散トランザクション）が有効になっている
 - PostgreSQLとMySQLとも起動オプションでクエリーログを有効化する
   - サーバ起動後の変更可
-  - MySQLは、この設定の影響でコンテナ起動時に接続の受付を開始するタイミングが通常よりも少し遅れる
+  - MySQLは、この設定の影響でコンテナ起動時に接続の受付を開始するタイミングが通常よりも少し遅くなる
 
 ### データベースのコンテナ起動
 
@@ -451,25 +451,33 @@ mysql> SELECT * FROM shop;
 
 ## 関連ドキュメント
 
-### PostgreSQL 17（英語）
+### 英語
+
+#### PostgreSQL 17
 
 - [PREPARE TRANSACTION](https://www.postgresql.org/docs/17/sql-prepare-transaction.html)
 - [COMMIT PREPARED](https://www.postgresql.org/docs/17/sql-commit-prepared.html)
 - [ROLLBACK PREPARED](https://www.postgresql.org/docs/17/sql-rollback-prepared.html)
 
-### PostgreSQL 16（日本語）
-
-- [PREPARE TRANSACTION](https://www.postgresql.jp/docs/16/sql-prepare-transaction.html)
-- [COMMIT PREPARED](https://www.postgresql.jp/docs/16/sql-commit-prepared.html)
-- [ROLLBACK PREPARED](https://www.postgresql.jp/docs/16/sql-rollback-prepared.html)
-
-### MySQL 8.4（英語）
+#### MySQL 8.4
 
 - [XA Transactions](https://dev.mysql.com/doc/refman/8.4/en/xa.html)
 - [XA Transaction SQL Statements](https://dev.mysql.com/doc/refman/8.4/en/xa-statements.html)
 - [XA Transaction States](https://dev.mysql.com/doc/refman/8.4/en/xa-states.html)
 
-### MySQL 8.0（日本語）
+### 日本語
+
+#### PostgreSQL 16
+
+少しバージョンが古い
+
+- [PREPARE TRANSACTION](https://www.postgresql.jp/docs/16/sql-prepare-transaction.html)
+- [COMMIT PREPARED](https://www.postgresql.jp/docs/16/sql-commit-prepared.html)
+- [ROLLBACK PREPARED](https://www.postgresql.jp/docs/16/sql-rollback-prepared.html)
+
+#### MySQL 8.0
+
+少しバージョンが古い
 
 - [XA トランザクション](https://dev.mysql.com/doc/refman/8.0/ja/xa.html)
 - [XA トランザクション SQL ステートメント](https://dev.mysql.com/doc/refman/8.0/ja/xa-statements.html)

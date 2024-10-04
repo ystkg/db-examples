@@ -42,6 +42,8 @@ docker compose down
 
 接続オプションに `log_statement=all` を追加
 
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/main.go#L77
+
 #### クエリーログの参照
 
 クエリーログは、標準エラー（stderr）に出力される

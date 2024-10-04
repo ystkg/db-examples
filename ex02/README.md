@@ -90,6 +90,8 @@ https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196
 
 - CommitもしくはRollbackでプールに返却されるパータン（*sql.Txに `Close()` はない）
 
+### Commit
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0203.go#L12-L20
 
 ```shell
@@ -101,7 +103,9 @@ go run . ex0203
 {"time":"2024-10-03T18:48:28.336647909+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-- `tx.Commit()` の後でプールに返却されている
+- `tx.Commit()` でプールに返却されている
+
+### Rollback
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0204.go#L12-L18
 
@@ -114,7 +118,7 @@ go run . ex0204
 {"time":"2024-10-03T18:48:29.982618874+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-- `tx.Rollback()` の後でプールに返却されている
+- `tx.Rollback()` でプールに返却されている
 
 ## \*sql.Conn/*sql.Tx
 
@@ -150,7 +154,7 @@ go run . ex0206
 {"time":"2024-09-10T12:13:49.156507279+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-- InUseが0になっている
+- 前後ともInUseが0になっている
 
 ## DB.QueryRowContext
 
@@ -183,7 +187,7 @@ go run . ex0208
 {"time":"2024-09-10T12:14:48.961880508+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
-- もし仮に false になるまで `rows.Next()` を呼ばなかった場合ですが、そのときは `rows.Close()` のタイミングで返却されることになる
+- もし仮に false になるまで `rows.Next()` を呼ばなかった場合は `rows.Close()` のタイミングで返却されることになる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0209.go#L14-L26
 
@@ -211,6 +215,7 @@ go run . ex0210
 {"time":"2024-10-03T19:09:47.607883584+09:00","level":"INFO","msg":"after ","Open":0,"InUse":0,"Idle":0}
 ```
 
+- OpenとIdleも0になっている
 - ただし、InUseのコネクションはクローズされない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0211.go#L9-L35
@@ -229,6 +234,7 @@ go run . ex0211
 {"time":"2024-10-03T19:33:07.300089802+09:00","level":"INFO","msg":"conn 4","Open":0,"InUse":0,"Idle":0}
 ```
 
+- Idleが0になってもInUseは3のまま残っている
 - クローズされるコネクションはIdleのみで、InUseはClose()でプールに戻されることなく、直接クローズされている
 
 ## プールの制御
