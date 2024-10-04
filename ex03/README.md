@@ -3,12 +3,14 @@
 ## 概要
 
 - SQLインジェクションのリスクを回避する方法として、プレースホルダ（placeholder）とプリペアドステートメント（prepared statement）を用いられている
-- Goの標準ライブラリを探してみるとdatabase/sqlパッケージに `PrepareContext()` との関連性を整理
+- Goの標準ライブラリ（database/sqlパッケージ）にある `PrepareContext()` との関連性を整理
 - SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分にバリデーションされていることを前提とする
 
 ## Docker
 
-- データベースはPostgreSQLとMySQLのDockerコンテナを使用
+データベースはPostgreSQLとMySQLのDockerコンテナを使用する
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/docker-compose.yml#L1-L19
 
 ### データベースのコンテナ起動
 
@@ -108,6 +110,7 @@ go run . ex03pg01 pq
 ### PrepareContext
 
 - PrepareContextを使う
+- クエリーログを確認する目的のため、レコードの取得処理は省略し、rowsは即 `Close()`
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
@@ -121,6 +124,8 @@ go run . ex03pg01
 2024-09-12 19:34:13.281 JST [1554] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
 2024-09-12 19:34:13.281 JST [1554] DETAIL:  parameters: $1 = 'Carol'
 ```
+
+- プリペアドステートメントとプレースホルダでリスク回避できている
 
 ### QueryContext
 
@@ -139,11 +144,11 @@ go run . ex03pg02
 2024-09-12 19:35:14.458 JST [1560] DETAIL:  parameters: $1 = 'Carol'
 ```
 
-- PrepareContextを使わなくても、プリペアドステートメントで実行されている
+- PrepareContextを使わなくても、プリペアドステートメントとプレースホルダによりリスク回避できている
 
 ### 文字列操作
 
-- パラメータにプレースホルダを使わず、文字列操作でSQLを組み立てる
+- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立てる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
@@ -156,11 +161,11 @@ go run . ex03pg03
 2024-09-12 19:35:35.717 JST [1563] LOG:  execute stmtcache_e04a87592a108755025dbfb325b59b4da703a4dc9a9c4da4: SELECT id, name, role FROM staff WHERE name = 'Carol'
 ```
 
-- プリペアドステートメントで実行されているが、プリペアする時点のSQLに問題があり、リスクのある状態
+- プリペアドステートメントで実行されているが、プレースホルダを使っていないため、プリペアする時点のSQLに問題があり、リスク回避できていない
 
 ### 不正なパラメータ
 
-- 不正なパラメータを与えて実行
+- 実際に不正なパラメータを与えて確認する
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg04.go#L16-L25
 
@@ -176,7 +181,7 @@ go run . ex03pg04
 
 ### プレースホルダなし
 
-- プレースホルダを使わず、PrepareContextを使う
+- プレースホルダを使わないままで、PrepareContextを使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
@@ -188,12 +193,11 @@ go run . ex03pg05
 2024-09-12 19:36:21.648 JST [1569] LOG:  execute stmt_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
 ```
 
-- 同じように問題のあるSQLが実行されてしまう
-- PrepareContextを使っているというだけでは不十分
+- 同じように問題のあるSQLが実行されてしまうため、PrepareContextを使っているというだけでは不十分
 
 ### プレースホルダあり
 
-- プレースホルダを使って不正なパラメータを与えて実行
+- プレースホルダを使って不正なパラメータを与えて確認する
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
@@ -212,6 +216,8 @@ go run . ex03pg06
 
 ### PrepareContext
 
+- SQLドライバを pq に変更してPrepareContextを使う
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
 ```shell
@@ -225,9 +231,11 @@ go run . ex03pg01 pq
 2024-09-12 19:37:15.019 JST [1574] DETAIL:  parameters: $1 = 'Carol
 ```
 
-- 出力されるログの雰囲気は少し変化しているが、プリペアドステートメントが使われている
+- 出力されるログの雰囲気は少し変化しているが、プリペアドステートメントとプレースホルダによりリスク回避できている
 
 ### QueryContext
+
+- QueryContextを使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
@@ -242,7 +250,7 @@ go run . ex03pg02 pq
 2024-09-12 19:37:36.022 JST [1577] DETAIL:  parameters: $1 = 'Carol'
 ```
 
-- PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントになっている
+- PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントになっていてリスク回避できている
 
 ### プレースホルダなし
 
@@ -265,6 +273,8 @@ https://github.com/lib/pq/blob/2a217b94f5ccd3de31aec4152a541b9ff64bed05/conn.go#
 
 ### プレースホルダあり
 
+- プレースホルダを使って不正なパラメータを与えて確認する
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
 
 ```shell
@@ -280,7 +290,7 @@ go run . ex03pg06 pq
 
 ## プリペアドステートメントの名前
 
-クエリーログに出力されているプリペアドステートメントの名前はSQLドライバ側で付けられている。
+クエリーログに出力されているプリペアドステートメントの名前はSQLドライバ側で付けられている。<br>
 （例： `stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de` ）
 
 pgxではプレフィックス（ "stmt_" ）の後ろの部分がSQLのダイジェストになっていて、同一のSQLであれば同じ名前になる。
@@ -305,6 +315,8 @@ https://github.com/jackc/pgx/blob/672c4a3a24849b1f34857817e6ed76f6581bbe90/conn.
 
 ### PrepareContext
 
+- MySQLでPrepareContextを使う
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql01.go#L8-L41
 
 ```shell
@@ -322,6 +334,8 @@ go run . ex03mysql01
 
 ### QueryContext
 
+- QueryContextを使う
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql02.go#L15-L35
 
 ```shell
@@ -337,9 +351,12 @@ go run . ex03mysql02
 2024-09-12T19:47:40.650875+09:00          105 Close stmt
 ```
 
-- `PrepareContext()` を使わなくてもプレースホルダがあるのでプリペアドステートメントになるが、つどCloseしてしまっている
+- `PrepareContext()` を使わなくてもプレースホルダがあるのでプリペアドステートメントになっていてリスク回避できている
+- つどCloseされている
 
 ### 文字列操作
+
+- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立てる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
 
@@ -355,6 +372,8 @@ go run . ex03mysql03
 - プレースホルダがないとプリペアドステートメントが使われず、リスクのある状態
 
 ### 不正なパラメータ
+
+- 実際に不正なパラメータを与えて確認する
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql04.go#L16-L32
 
@@ -373,6 +392,8 @@ go run . ex03mysql04
 
 ### プレースホルダ
 
+- プレースホルダを使って不正なパラメータを与えて確認する
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql05.go#L15-L24
 
 ```shell
@@ -385,7 +406,7 @@ go run . ex03mysql05
 2024-09-12T19:48:52.567510+09:00          111 Close stmt
 ```
 
-- エスケープされた状態になっていて、プレースホルダを使うことでリスク回避できている
+- プレースホルダを使うことでリスク回避できている
 
 ## 関連ドキュメント
 

@@ -7,7 +7,9 @@
 
 ## Docker
 
-- データベースはPostgreSQLのDockerコンテナを使用
+データベースはPostgreSQLのDockerコンテナを使用する
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/docker-compose.yml#L1-L10
 
 ### データベースのコンテナ起動
 
@@ -91,7 +93,8 @@ go run . ex0202
 
 ## \*sql.DB/*sql.Tx
 
-- CommitもしくはRollbackでプールに返却される。*sql.Txに `Close()` はない
+- CommitもしくはRollbackでプールに返却される
+  - *sql.Txに `Close()` はない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0203.go#L12-L20
 
@@ -104,6 +107,8 @@ go run . ex0203
 {"time":"2024-10-03T18:48:28.336647909+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
+- `tx.Commit()` の後でプールに返却されている
+
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0204.go#L12-L18
 
 ```shell
@@ -114,6 +119,8 @@ go run . ex0204
 {"time":"2024-10-03T18:48:29.981928809+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
 {"time":"2024-10-03T18:48:29.982618874+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
+
+- `tx.Rollback()` の後でプールに返却されている
 
 ## \*sql.Conn/*sql.Tx
 
@@ -148,6 +155,8 @@ go run . ex0206
 {"time":"2024-09-10T12:13:49.153025371+09:00","level":"INFO","msg":"before","Open":1,"InUse":0,"Idle":1}
 {"time":"2024-09-10T12:13:49.156507279+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
+
+- InUseが0になっている
 
 ## DB.QueryRowContext
 
@@ -208,7 +217,7 @@ go run . ex0210
 {"time":"2024-10-03T19:09:47.607883584+09:00","level":"INFO","msg":"after ","Open":0,"InUse":0,"Idle":0}
 ```
 
-- クローズされるコネクションはIdleのみで、InUseはClose()でプールに戻されることなく、直接クローズされる
+- ただし、InUseのコネクションはクローズされない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0211.go#L9-L35
 
@@ -225,6 +234,16 @@ go run . ex0211
 {"time":"2024-10-03T19:33:07.300033695+09:00","level":"INFO","msg":"conn 3","Open":1,"InUse":1,"Idle":0}
 {"time":"2024-10-03T19:33:07.300089802+09:00","level":"INFO","msg":"conn 4","Open":0,"InUse":0,"Idle":0}
 ```
+
+- クローズされるコネクションはIdleのみで、InUseはClose()でプールに戻されることなく、直接クローズされている
+
+## プールの制御
+
+プールに戻すタイミングを明示的に制御する用途向けとして sql.Conn が用意されいる
+
+https://github.com/golang/go/blob/69234ded30614a471c35cef5d87b0e0d3c136cd9/src/database/sql/sql.go#L2139-L2146
+
+https://github.com/golang/go/blob/69234ded30614a471c35cef5d87b0e0d3c136cd9/src/database/sql/sql.go#L1935-L1937
 
 ## 関連ドキュメント
 

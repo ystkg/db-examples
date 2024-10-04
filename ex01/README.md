@@ -8,7 +8,9 @@
 
 ## Docker
 
-- データベースはPostgreSQLとMySQLのDockerコンテナを使用
+データベースはPostgreSQLとMySQLのDockerコンテナを使用する
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/docker-compose.yml#L1-L19
 
 ### データベースのコンテナ起動
 
@@ -76,7 +78,7 @@ go run . ex01pg01 pq
 
 ### INSERT/SELECT/DELETE
 
-- 1レコードINSERTしたあと、SELECTして、最後にDELETE
+- 1レコードINSERTしたあと、SELECTして、最後にDELETEする
 - 更新で `ExecContext` を使い、1レコードの取得で `QueryRowContext` を使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql01.go#L11-L59
@@ -89,11 +91,11 @@ go run . ex01mysql01
 {"time":"2024-09-06T10:01:42.634960998+09:00","level":"INFO","msg":"SELECT","id":106,"title":"タイトルA","created_at":"2024-09-06T10:01:43+09:00","updated_at":"2024-09-06T10:01:43+09:00"}
 ```
 
-実行するとINSERTしたレコードをSELECTした結果がログに出力される
+- 実行するとINSERTしたレコードをSELECTした結果がログに出力される
 
 ### LastInsertId
 
-INSERTを実行した `ExecContext` の戻り値にはサーバ側で採番されたidを取得
+INSERTを実行した `ExecContext` の戻り値でサーバ側で採番されたidを取得
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql02.go#L23-L51
 
@@ -106,7 +108,7 @@ go run . ex01mysql02
 {"time":"2024-09-06T10:02:06.952892057+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-09-06T10:02:07+09:00","updated_at":"2024-09-06T10:02:07+09:00"}
 ```
 
-合わせて `RowsAffected()` でINSERTされたレコード数の取得
+- 合わせて `RowsAffected()` でINSERTされたレコード数の取得
 
 ### 複数レコードのINSERT
 
@@ -141,14 +143,14 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 go run . ex01pg01
 ```
 
-```json:実行結果
+```json
 {"time":"2024-09-06T10:02:59.167217586+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:02:59.163901+09:00","updated_at":"2024-09-06T10:02:59.163901+09:00"}
 ```
 
 ### LastInsertId
 
 - `LastInsertId()` がサポートされていない
-  - SQLドライバは `pgx` と `pq` のどちらもサポートされてない
+  - `pgx` と `pq` のどちらSQLドライバでもサポートされてない
 - `RowsAffected()` でレコード数の取得はできる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg02.go#L23-L34
@@ -176,6 +178,8 @@ go run . ex01pg03
 {"time":"2024-09-06T10:03:44.996889808+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:03:44.992698+09:00","updated_at":"2024-09-06T10:03:44.992698+09:00"}
 ```
 
+- `Scan` して採番されたid（ `insertId` ）を取得
+
 ### 複数レコードのINSERT
 
 - 複数レコードをINSERTする場合は、採番されるidも複数になるので `QueryRowContext` ではなく `QueryContext` を使う
@@ -186,11 +190,12 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 go run . ex01pg04
 ```
 
-```json:実行結果
+```json
 {"time":"2024-09-06T10:04:11.397834844+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
 {"time":"2024-09-06T10:04:11.400161222+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
 ```
 
+- INSERTした全てのレコードのidを取得することができる
 - DELETEでの `RowsAffected()` では削除されたレコード数を取得できる
 
 ### 主キー以外
@@ -205,7 +210,7 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 go run . ex01pg05
 ```
 
-```json:実行結果
+```json
 {"time":"2024-09-06T10:04:37.712347253+09:00","level":"INFO","msg":"INSERT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
 {"time":"2024-09-06T10:04:37.712436243+09:00","level":"INFO","msg":"INSERT","id":2,"title":"タイトルB","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
 {"time":"2024-09-06T10:04:37.712444068+09:00","level":"INFO","msg":"INSERT","id":3,"title":"タイトルC","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
@@ -223,7 +228,7 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 go run . ex01pg06
 ```
 
-```json:実行結果
+```json
 {"time":"2024-09-06T10:04:59.531383894+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
 {"time":"2024-09-06T10:04:59.533002872+09:00","level":"INFO","msg":"DELETE","id":1,"title":"タイトルA","created_at":"2024-09-06T10:04:59.52977+09:00","updated_at":"2024-09-06T10:04:59.52977+09:00"}
 {"time":"2024-09-06T10:04:59.533043289+09:00","level":"INFO","msg":"DELETE","id":2,"title":"タイトルB","created_at":"2024-09-06T10:04:59.52977+09:00","updated_at":"2024-09-06T10:04:59.52977+09:00"}
