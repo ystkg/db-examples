@@ -14,10 +14,10 @@ https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd4
 - PostgreSQLで2相コミットを有効化するために `max_prepared_transactions` を 1 にする
   - `max_prepared_transactions` は同時にプリペアド状態にできるトランザクションの最大数
   - 最小の 1 にしておく
-  - サーバ起動後の変更不可
+  - 起動後の変更不可
 - MySQLはデフォルトで2相コミット（分散トランザクション）が有効になっている
 - PostgreSQLとMySQLとも起動オプションでクエリーログを有効化する
-  - サーバ起動後の変更可
+  - 起動後に変更可
   - MySQLは、この設定の影響でコンテナ起動時に接続の受付を開始するタイミングが通常よりも少し遅くなる
 
 ### データベースのコンテナ起動
@@ -92,6 +92,8 @@ docker container exec -t -e MYSQL_PWD=expasswd mysql2pc mysql xadb -e 'XA RECOVE
 
 - 実行時のセットアップ処理で初期化
 - 1テーブル（shop）のみ
+- 主キーはデータベース側で採番
+- 時刻（created_at）はデータベース側で設定
 
 ```mermaid
 erDiagram
@@ -101,6 +103,10 @@ erDiagram
         datetime created_at
     }
 ```
+
+- MySQLにだけ初期データを入れておく
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex04/table/mysql.dml#L1-L5
 
 ## サンプルコードの実行
 
@@ -135,10 +141,10 @@ go run . ex04tx01
 {"time":"2024-09-18T17:50:17.344833172+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
 ```
 
-- PostgreSQLでは `begin` と `commit` が送信されている
-- SQLドライバ依存
-  - [pgx](https://github.com/jackc/pgx/blob/v5.7.1/tx.go#L57)
-  - [pq](https://github.com/lib/pq/blob/v1.10.9/conn.go#L583)
+- データベース側のクエリーログによりPostgreSQLでは `begin` と `commit` が送信されていることが確認できる
+  - SQLドライバ依存
+    - [pgx](https://github.com/jackc/pgx/blob/v5.7.1/tx.go#L57)
+    - [pq](https://github.com/lib/pq/blob/v1.10.9/conn.go#L583)
 
 ```log
 2024-09-18 17:50:17.340 JST [313] LOG:  statement: begin
@@ -147,9 +153,9 @@ go run . ex04tx01
 2024-09-18 17:50:17.345 JST [313] LOG:  statement: commit
 ```
 
-- MySQLでは `START TRANSACTION` と `COMMIT` が送信されている
-- SQLドライバ依存
-  - [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql/blob/v1.8.1/connection.go#L124)
+- データベース側のクエリーログによりMySQLでは `START TRANSACTION` と `COMMIT` が送信されていることが確認できる
+  - SQLドライバ依存
+    - [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql/blob/v1.8.1/connection.go#L124)
 
 ```log
 2024-09-18T17:50:17.341408+09:00           11 Query     START TRANSACTION
@@ -162,7 +168,7 @@ go run . ex04tx01
 ### ExecContext
 
 - BeginTxとCommitは使わずExecContextを使ってトランザクションを制御する
-- PostgreSQLは小文字表記にし、MySQLは大文字表記にする
+- 送信するトランザクションのコマンドは、PostgreSQLは小文字表記にし、MySQLは大文字表記にする
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex04/ex04tx02.go#L32-L96
 
@@ -175,7 +181,7 @@ go run . ex04tx02
 {"time":"2024-09-18T17:53:36.846321949+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
 ```
 
-- PostgreSQLはExecContextを使っても同じようにトランザクション制御できることが確認できる
+- データベース側のクエリーログによりPostgreSQLはExecContextを使っても同じようにトランザクション制御できることが確認できる
 
 ```log
 2024-09-18 17:53:36.837 JST [320] LOG:  statement: begin
@@ -184,7 +190,7 @@ go run . ex04tx02
 2024-09-18 17:53:36.846 JST [320] LOG:  statement: commit
 ```
 
-- MySQLもExecContextを使って同じようにトランザクション制御できることが確認できる
+- データベース側のクエリーログによりMySQLもExecContextを使って同じようにトランザクション制御できることが確認できる
 
 ```log
 2024-09-18T17:53:36.838944+09:00           12 Query     START TRANSACTION
@@ -212,6 +218,7 @@ COMMIT
 ```
 
 - 大文字小文字の区別なし（ケース・インセンシティブ）
+- ロールバックは`rollback`
 
 #### 2相コミット
 
@@ -219,6 +226,7 @@ COMMIT
   - begin
   - prepare transaction *transaction_id*
   - commit prepared *transaction_id*
+- *transaction_id* はトランザクション識別子で任意の文字列リテラル
 
 ```shell
 postgres=# begin;
@@ -252,6 +260,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 - 大文字小文字の区別なし（ケース・インセンシティブ）
 - `START TRANSACTION` は `BEGIN` でも同じ
+- ロールバックは`ROLLBACK`
 
 #### 2相コミット
 
@@ -260,6 +269,8 @@ Query OK, 0 rows affected (0.00 sec)
   - XA END *xid*
   - XA PREPARE *xid*
   - XA COMMIT *xid*
+- *xid* はXAトランザクション識別子で、クライアントによって指定することもできる
+  - 例では64バイト以下の文字列リテラルにしておく
 
 ```shell
 mysql> XA BEGIN 'cli';
@@ -285,7 +296,7 @@ Query OK, 0 rows affected (0.01 sec)
 ### 一括
 
 - ExecContextを使って2相コミットを制御する
-  - トランザクション識別子はPostgreSQL（ *transaction_id* ）とMySQL（ *xid* ）で別々にもできるが、ここでは揃える
+  - トランザクション識別子はPostgreSQL（ *transaction_id* ）とMySQL（ *xid* ）で別々にもできるが、例では同じ識別子にしておく
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex04/ex04xa01.go#L37-L149
 
@@ -321,6 +332,7 @@ go run . ex04xa02
 
 - psqlを使ってCOMMITする
 - `pg_prepared_xacts` ビューでプリペアドトランザクションを確認できる
+  - `gid` がトランザクション識別子
 
 ```shell
 postgres=# SELECT * FROM pg_prepared_xacts;
@@ -336,7 +348,7 @@ COMMIT PREPARED
 #### MySQL
 
 - MySQLモニタを使ってCOMMITする
-- `XA RECOVER` PREPARED 状態にある XA トランザクションを確認できる
+- `XA RECOVER` で PREPARED 状態にある XA トランザクションを確認できる
 
 ```shell
 mysql> XA RECOVER;
@@ -353,7 +365,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 ## 各ステータス
 
-コマンドラインだけで一連の流れを確認する。見やすくするため、最初にTRUNCATEでテーブルのレコード全削除しておく。
+コマンドラインだけで一連の流れを確認する。対象レコードを見やすくするため、最初にTRUNCATEでテーブルのレコード全削除
 
 ### PostgreSQL
 
@@ -469,7 +481,7 @@ mysql> SELECT * FROM shop;
 
 #### PostgreSQL 16
 
-少しバージョンが古い
+バージョンが少し古い
 
 - [PREPARE TRANSACTION](https://www.postgresql.jp/docs/16/sql-prepare-transaction.html)
 - [COMMIT PREPARED](https://www.postgresql.jp/docs/16/sql-commit-prepared.html)
@@ -477,7 +489,7 @@ mysql> SELECT * FROM shop;
 
 #### MySQL 8.0
 
-少しバージョンが古い
+バージョンが少し古い
 
 - [XA トランザクション](https://dev.mysql.com/doc/refman/8.0/ja/xa.html)
 - [XA トランザクション SQL ステートメント](https://dev.mysql.com/doc/refman/8.0/ja/xa-statements.html)

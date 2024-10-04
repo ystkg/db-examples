@@ -3,8 +3,8 @@
 ## 概要
 
 - Goのdatabase/sqlパッケージでPostgreSQLとMySQLを使う場合の主な違いについて `ExecContext` `QueryContext` `QueryRowContext` を中心に整理
-- 通常は、更新で`ExecContext` を使い、参照で `QueryContext` （もしくは `QueryRowContext` ）を使う
-- 更新で `QueryContext` （もしくは `QueryRowContext` ）を使うケースについても掘り下げる
+- 通常は、更新で`ExecContext` を使い、参照で `QueryContext` もしくは `QueryRowContext` を使う
+- 更新で `QueryContext` もしくは `QueryRowContext` を使うケースについても掘り下げる
 
 ## Docker
 
@@ -40,6 +40,7 @@ docker compose down
 
 - 実行時のセットアップ処理で初期化
 - 1テーブル（movie）のみ
+- 主キーはデータベース側で採番
 
 ```mermaid
 erDiagram
@@ -95,7 +96,7 @@ go run . ex01mysql01
 
 ### LastInsertId
 
-- INSERTを実行した `ExecContext` の戻り値でサーバ側で採番されたidを取得する
+- INSERTを実行した `ExecContext` の戻り値でデータベース側で採番されたidを取得する
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql02.go#L23-L51
 
@@ -165,7 +166,7 @@ go run . ex01pg02
 
 ### RETURNING
 
-- PostgreSQLでは、サーバ側で採番されたidの取得には `RETURNING` で `QueryRowContext` を使う
+- PostgreSQLでは、データベース側で採番されたidの取得には `RETURNING` で `QueryRowContext` を使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg03.go#L23-L56
 
@@ -178,11 +179,11 @@ go run . ex01pg03
 {"time":"2024-09-06T10:03:44.996889808+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:03:44.992698+09:00","updated_at":"2024-09-06T10:03:44.992698+09:00"}
 ```
 
-- `Scan` して採番されたid（ `insertId` ）を取得
+- `Scan()` してデータベース側で採番されたidを取得
 
 ### 複数レコードのINSERT
 
-- 複数レコードをINSERTする場合は、採番されるidも複数になるので `QueryRowContext` ではなく `QueryContext` を使う
+- 複数レコードをINSERTする場合は、データベース側で採番されるidも複数になるので `QueryRowContext` ではなく `QueryContext` を使う
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg04.go#L25-L65
 
@@ -200,9 +201,9 @@ go run . ex01pg04
 
 ### 主キー以外
 
-- `RETURNING` は対象はサーバ側で採番されたidだけでなく、任意のカラムを返すことが可能
-- 例えば、デフォルトの値が設定されるカラムや、created_atやupdated_atにサーバ側の時刻が設定される場合でも取得できる
-- `RETURNING *` とすれば全カラムを取得できる
+- `RETURNING` は対象はデータベース側で採番されたidだけでなく、任意のカラムを返すことが可能
+- 例えば、デフォルトの値が設定されるカラムや、created_atやupdated_atにデータベース側で時刻が設定される場合でも取得できる
+- 全カラム名を列挙したり、 `RETURNING *` とすれば全カラムを取得できる
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg05.go#L25-L67
 

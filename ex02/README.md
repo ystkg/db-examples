@@ -39,6 +39,7 @@ docker compose down
 
 - 実行時のセットアップ処理で初期化
 - 1テーブル（shop）のみ
+- 主キーはデータベース側で採番
 
 ```mermaid
 erDiagram
@@ -69,7 +70,7 @@ go run . ex0201
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0201.go#L11-L59
 
-- 処理の流れを追いやすくするため、関心事だけに絞って、コネクションプールの状態をログ出力させて確認
+- 処理の流れを追いやすくするため、実装は関心事だけに絞り、ログ出力によりコネクションプールの状態を確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0202.go#L9-L24
 
@@ -88,7 +89,7 @@ https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196
 
 ## \*sql.DB/*sql.Tx
 
-- CommitもしくはRollbackでプールに返却されるパータン（*sql.Txに `Close()` はない）
+- CommitもしくはRollbackでプールに返却されるパターン（*sql.Txに `Close()` はない）
 
 ### Commit
 
@@ -123,7 +124,7 @@ go run . ex0204
 ## \*sql.Conn/*sql.Tx
 
 - \*sql.DBでBeginTxした場合と*sql.ConnでBeginTxした場合とで異なる
-  - CommitもしくはRollbackではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
+  - \*sql.ConnのCommitとRollbackではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0205.go#L12-L23
 
@@ -136,12 +137,12 @@ go run . ex0205
 {"time":"2024-10-03T18:52:32.602614139+09:00","level":"INFO","msg":"after ","Open":1,"InUse":1,"Idle":0,"err":null}
 ```
 
-- `InUse` に残ったままで返却されていない
+- InUseに残ったままで返却されていない
 - エラーも発生していない
 
 ## DB.ExecContext
 
-- 実行毎にプールに返却されるパータン
+- 実行毎にプールに返却されるパターン
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0206.go#L12-L18
 
@@ -158,7 +159,7 @@ go run . ex0206
 
 ## DB.QueryRowContext
 
-- row.Scan()でプールに返却されるパータン
+- `row.Scan()` でプールに返却されるパターン
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0207.go#L12-L20
 
@@ -173,7 +174,7 @@ go run . ex0207
 
 ## DB.QueryContext
 
-- `rows.Next()` が false になったタイミングでプールに返却されるパータン
+- `rows.Next()` が false になったタイミングでプールに返却されるパターン
   - 処理の流れを追いやすくするため、for文を使わずにループを展開
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0208.go#L14-L32
@@ -235,7 +236,7 @@ go run . ex0211
 ```
 
 - Idleが0になってもInUseは3のまま残っている
-- クローズされるコネクションはIdleのみで、InUseはClose()でプールに戻されることなく、直接クローズされている
+- クローズされるコネクションはIdleのみで、InUseは `Close()` でプールに戻されることなく、直接クローズされている
 
 ## プールの制御
 

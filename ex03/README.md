@@ -84,6 +84,12 @@ erDiagram
     }
 ```
 
+- PostgreSQLとMySQLともに初期データを入れておく
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/table/pg.dml#L1-L4
+
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/table/mysql.dml#L1-L4
+
 ## サンプルコードの実行
 
 ```shell
@@ -111,7 +117,7 @@ go run . ex03pg01 pq
 
 ### PrepareContext
 
-- PrepareContextを使ったときのクエリーログを確認
+- PrepareContextを使ったときのデータベース側のクエリーログを確認
 - クエリーログの確認が目的のため、レコードの取得処理は省略し、rowsは即 `Close()`
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
@@ -127,11 +133,11 @@ go run . ex03pg01
 2024-09-12 19:34:13.281 JST [1554] DETAIL:  parameters: $1 = 'Carol'
 ```
 
-- プリペアドステートメントとプレースホルダでリスク回避できている
+- プリペアドステートメントが使われプレースホルダでリスク回避できている
 
 ### QueryContext
 
-- PrepareContextを使わずにQueryContextを使ったときのクエリーログを確認
+- PrepareContextを使わずにQueryContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
@@ -146,11 +152,12 @@ go run . ex03pg02
 2024-09-12 19:35:14.458 JST [1560] DETAIL:  parameters: $1 = 'Carol'
 ```
 
-- PrepareContextを使わなくても、プリペアドステートメントとプレースホルダによりリスク回避できている
+- PrepareContextを使わなくても、プリペアドステートメントが使われプレースホルダによりリスク回避できている
+- PrepareContextを使うことが必須条件ではない
 
 ### 文字列操作
 
-- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのクエリーログを確認
+- パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
@@ -163,7 +170,7 @@ go run . ex03pg03
 2024-09-12 19:35:35.717 JST [1563] LOG:  execute stmtcache_e04a87592a108755025dbfb325b59b4da703a4dc9a9c4da4: SELECT id, name, role FROM staff WHERE name = 'Carol'
 ```
 
-- プリペアドステートメントで実行されているが、プレースホルダを使っていないため、プリペアする時点のSQLに問題があり、リスク回避できていない
+- プリペアドステートメントで実行されているが、プレースホルダを使っていないため、プリペアする時点のSQLに問題があり、脆弱な状態になっている
 
 ### 不正なパラメータ
 
@@ -183,7 +190,7 @@ go run . ex03pg04
 
 ### プレースホルダなし
 
-- プレースホルダを使わないままで、PrepareContextを使ったときのクエリーログを確認
+- プレースホルダを使わないままで、PrepareContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
@@ -195,7 +202,7 @@ go run . ex03pg05
 2024-09-12 19:36:21.648 JST [1569] LOG:  execute stmt_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
 ```
 
-- 同じように問題のあるSQLが実行されてしまうため、PrepareContextを使っているというだけでは不十分
+- 同じように問題のあるSQLが実行されてしまうため、PrepareContextを使うだけでは不十分
 
 ### プレースホルダあり
 
@@ -218,7 +225,7 @@ go run . ex03pg06
 
 ### PrepareContext
 
-- SQLドライバを pq にしてPrepareContextを使ったときのクエリーログを確認
+- SQLドライバを pq にしてPrepareContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
 
@@ -233,11 +240,11 @@ go run . ex03pg01 pq
 2024-09-12 19:37:15.019 JST [1574] DETAIL:  parameters: $1 = 'Carol
 ```
 
-- 出力されるログの雰囲気は少し変化しているが、プリペアドステートメントとプレースホルダによりリスク回避できている
+- 出力されるログの雰囲気は少し変化しているが、プリペアドステートメントが使われプレースホルダによりリスク回避できている
 
 ### QueryContext
 
-- SQLドライバを pq にしてQueryContextを使ったときのクエリーログを確認
+- SQLドライバを pq にしてQueryContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
 
@@ -252,11 +259,11 @@ go run . ex03pg02 pq
 2024-09-12 19:37:36.022 JST [1577] DETAIL:  parameters: $1 = 'Carol'
 ```
 
-- PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントになっていてリスク回避できている
+- PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントが使われリスク回避できている
 
 ### プレースホルダなし
 
-- SQLドライバを pq にしてプレースホルダを使わず、PrepareContextを使ったときのクエリーログを確認
+- SQLドライバを pq にしてプレースホルダを使わず、PrepareContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
@@ -317,7 +324,7 @@ https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L629-L668
 
 ### PrepareContext
 
-- MySQLでPrepareContextを使ったときのクエリーログを確認
+- MySQLでPrepareContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql01.go#L8-L41
 
@@ -336,7 +343,7 @@ go run . ex03mysql01
 
 ### QueryContext
 
-- MySQLでQueryContextを使ったときのクエリーログを確認
+- MySQLでQueryContextを使ったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql02.go#L15-L35
 
@@ -353,12 +360,12 @@ go run . ex03mysql02
 2024-09-12T19:47:40.650875+09:00          105 Close stmt
 ```
 
-- `PrepareContext()` を使わなくてもプレースホルダがあるのでプリペアドステートメントになっていてリスク回避できている
-- つどCloseされている
+- PrepareContextを使わなくてもプレースホルダがあるのでプリペアドステートメントになっていてリスク回避できている
+- プリペアドステートメントは、つどCloseされている
 
 ### 文字列操作
 
-- MySQLでパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのクエリーログを確認
+- MySQLでパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
 
