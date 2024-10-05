@@ -17,7 +17,7 @@ func Ex0207(ctx context.Context, db *sql.DB) error {
 
 	stats(db, "before")
 	row.Scan(&id, &name) // ここで返却
-	stats(db, "after")
+	statsIdName(db, "after", id, name)
 
 	return nil
 }

@@ -79,8 +79,8 @@ go run . ex0202
 ```
 
 ```json
-{"time":"2024-09-10T12:12:36.181796186+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-09-10T12:12:36.181937016+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:18:16.514616341+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:18:16.514732242+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
@@ -101,8 +101,8 @@ go run . ex0203
 ```
 
 ```json
-{"time":"2024-10-03T18:48:28.335019383+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T18:48:28.336647909+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:18:32.800364346+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:18:32.801725492+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 - `tx.Commit()` でプールに返却されている
@@ -116,8 +116,8 @@ go run . ex0204
 ```
 
 ```json
-{"time":"2024-10-03T18:48:29.981928809+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T18:48:29.982618874+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:18:54.929728177+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:18:54.930214444+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 - `tx.Rollback()` でプールに返却されている
@@ -134,8 +134,8 @@ go run . ex0205
 ```
 
 ```json
-{"time":"2024-10-03T18:52:32.601262941+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T18:52:32.602614139+09:00","level":"INFO","msg":"after ","Open":1,"InUse":1,"Idle":0,"err":null}
+{"time":"2024-10-05T10:19:11.595791369+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:19:11.597110634+09:00","level":"INFO","msg":"after ","Open":1,"InUse":1,"Idle":0,"err":null}
 ```
 
 - InUseに残ったままで返却されていない
@@ -152,8 +152,8 @@ go run . ex0206
 ```
 
 ```json
-{"time":"2024-09-10T12:13:49.153025371+09:00","level":"INFO","msg":"before","Open":1,"InUse":0,"Idle":1}
-{"time":"2024-09-10T12:13:49.156507279+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:19:24.938171633+09:00","level":"INFO","msg":"before","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:19:24.939661816+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 - 前後ともInUseが0になっている
@@ -169,8 +169,8 @@ go run . ex0207
 ```
 
 ```json
-{"time":"2024-09-10T12:14:18.114116303+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-09-10T12:14:18.114284424+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1,"id":1,"name":"shop1"}
+{"time":"2024-10-05T10:26:25.223398589+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:26:25.223483481+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1,"id":1,"name":"shop1"}
 ```
 
 ## DB.QueryContext
@@ -185,8 +185,8 @@ go run . ex0208
 ```
 
 ```json
-{"time":"2024-09-10T12:14:48.961659094+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0,"id":2,"name":"shop2"}
-{"time":"2024-09-10T12:14:48.961880508+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:26:41.701379244+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0,"id":2,"name":"shop2"}
+{"time":"2024-10-05T10:26:41.701453886+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 - もし仮に false になるまで `rows.Next()` を呼ばなかった場合は `rows.Close()` のタイミングで返却されることになる
@@ -198,8 +198,8 @@ go run . ex0209
 ```
 
 ```json
-{"time":"2024-09-10T12:15:09.62954833+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0,"id":1,"name":"shop1"}
-{"time":"2024-09-10T12:15:09.62968931+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
+{"time":"2024-10-05T10:27:00.564888592+09:00","level":"INFO","msg":"before","Open":1,"InUse":1,"Idle":0,"id":1,"name":"shop1"}
+{"time":"2024-10-05T10:27:00.564959969+09:00","level":"INFO","msg":"after ","Open":1,"InUse":0,"Idle":1}
 ```
 
 ## DB.Close
@@ -213,8 +213,8 @@ go run . ex0210
 ```
 
 ```json
-{"time":"2024-10-03T19:09:47.607473683+09:00","level":"INFO","msg":"before","Open":5,"InUse":0,"Idle":5}
-{"time":"2024-10-03T19:09:47.607883584+09:00","level":"INFO","msg":"after ","Open":0,"InUse":0,"Idle":0}
+{"time":"2024-10-05T10:27:19.849655477+09:00","level":"INFO","msg":"before","Open":5,"InUse":0,"Idle":5}
+{"time":"2024-10-05T10:27:19.849937555+09:00","level":"INFO","msg":"after ","Open":0,"InUse":0,"Idle":0}
 ```
 
 - OpenとIdleも0になっている
@@ -227,13 +227,13 @@ go run . ex0211
 ```
 
 ```json
-{"time":"2024-10-03T19:33:07.299576312+09:00","level":"INFO","msg":"before","Open":5,"InUse":3,"Idle":2}
-{"time":"2024-10-03T19:33:07.299771464+09:00","level":"INFO","msg":"after ","Open":3,"InUse":3,"Idle":0}
-{"time":"2024-10-03T19:33:07.299887676+09:00","level":"INFO","msg":"conn 0","Open":2,"InUse":2,"Idle":0}
-{"time":"2024-10-03T19:33:07.300011412+09:00","level":"INFO","msg":"conn 1","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:33:07.300026982+09:00","level":"INFO","msg":"conn 2","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:33:07.300033695+09:00","level":"INFO","msg":"conn 3","Open":1,"InUse":1,"Idle":0}
-{"time":"2024-10-03T19:33:07.300089802+09:00","level":"INFO","msg":"conn 4","Open":0,"InUse":0,"Idle":0}
+{"time":"2024-10-05T10:27:33.158506751+09:00","level":"INFO","msg":"before","Open":5,"InUse":3,"Idle":2}
+{"time":"2024-10-05T10:27:33.158716381+09:00","level":"INFO","msg":"after ","Open":3,"InUse":3,"Idle":0}
+{"time":"2024-10-05T10:27:33.158800542+09:00","level":"INFO","msg":"conn 0","Open":2,"InUse":2,"Idle":0}
+{"time":"2024-10-05T10:27:33.159040339+09:00","level":"INFO","msg":"conn 1","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:27:33.159085245+09:00","level":"INFO","msg":"conn 2","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:27:33.159092198+09:00","level":"INFO","msg":"conn 3","Open":1,"InUse":1,"Idle":0}
+{"time":"2024-10-05T10:27:33.159241823+09:00","level":"INFO","msg":"conn 4","Open":0,"InUse":0,"Idle":0}
 ```
 
 - Idleが0になってもInUseは3のまま残っている

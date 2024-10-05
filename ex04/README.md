@@ -51,7 +51,7 @@ docker compose down
 クエリーログは、標準エラー（stderr）に出力される
 
 ```shell
-docker logs -f pgstmt
+docker logs -f pg2pc
 ```
 
 #### psqlによる接続
@@ -73,7 +73,7 @@ docker container exec -t pg2pc psql -U postgres -c 'SELECT * FROM pg_prepared_xa
 クエリーログは、general_log_fileに設定したファイルに出力される
 
 ```shell
-docker container exec pg2pc tail -f /var/lib/mysql/query.log
+docker container exec mysql2pc tail -f /var/lib/mysql/query.log
 ```
 
 #### MySQLモニタによる接続
@@ -137,8 +137,9 @@ go run . ex04tx01
 ```
 
 ```json
-{"time":"2024-09-18T17:50:17.343270258+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
-{"time":"2024-09-18T17:50:17.344833172+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+{"time":"2024-10-05T10:45:26.461878044+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
+{"time":"2024-10-05T10:45:26.464105017+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+
 ```
 
 - データベース側のクエリーログによりPostgreSQLでは `begin` と `commit` が送信されていることが確認できる
@@ -147,10 +148,10 @@ go run . ex04tx01
     - [pq](https://github.com/lib/pq/blob/v1.10.9/conn.go#L583)
 
 ```log
-2024-09-18 17:50:17.340 JST [313] LOG:  statement: begin
-2024-09-18 17:50:17.342 JST [313] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
-2024-09-18 17:50:17.342 JST [313] DETAIL:  parameters: $1 = 'shop1st'
-2024-09-18 17:50:17.345 JST [313] LOG:  statement: commit
+2024-10-05 10:45:26.459 JST [91] LOG:  statement: begin
+2024-10-05 10:45:26.461 JST [91] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
+2024-10-05 10:45:26.461 JST [91] DETAIL:  Parameters: $1 = 'shop1st'
+2024-10-05 10:45:26.464 JST [91] LOG:  statement: commit
 ```
 
 - データベース側のクエリーログによりMySQLでは `START TRANSACTION` と `COMMIT` が送信されていることが確認できる
@@ -158,11 +159,11 @@ go run . ex04tx01
     - [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql/blob/v1.8.1/connection.go#L124)
 
 ```log
-2024-09-18T17:50:17.341408+09:00           11 Query     START TRANSACTION
-2024-09-18T17:50:17.343853+09:00           11 Prepare   DELETE FROM shop WHERE NAME = ?
-2024-09-18T17:50:17.344267+09:00           11 Execute   DELETE FROM shop WHERE NAME = 'shop1st'
-2024-09-18T17:50:17.344895+09:00           11 Close stmt
-2024-09-18T17:50:17.346577+09:00           11 Query     COMMIT
+2024-10-05T10:45:26.459579+09:00            9 Query     START TRANSACTION
+2024-10-05T10:45:26.462603+09:00            9 Prepare   DELETE FROM shop WHERE NAME = ?
+2024-10-05T10:45:26.463305+09:00            9 Execute   DELETE FROM shop WHERE NAME = 'shop1st'
+2024-10-05T10:45:26.464335+09:00            9 Close stmt
+2024-10-05T10:45:26.466995+09:00            9 Query     COMMIT
 ```
 
 ### ExecContext
@@ -177,27 +178,28 @@ go run . ex04tx02
 ```
 
 ```json
-{"time":"2024-09-18T17:53:36.844663051+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
-{"time":"2024-09-18T17:53:36.846321949+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+{"time":"2024-10-05T10:46:23.139315578+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
+{"time":"2024-10-05T10:46:23.141185775+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+
 ```
 
 - データベース側のクエリーログによりPostgreSQLはExecContextを使っても同じようにトランザクション制御できることが確認できる
 
 ```log
-2024-09-18 17:53:36.837 JST [320] LOG:  statement: begin
-2024-09-18 17:53:36.843 JST [320] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
-2024-09-18 17:53:36.843 JST [320] DETAIL:  parameters: $1 = 'shop2nd'
-2024-09-18 17:53:36.846 JST [320] LOG:  statement: commit
+2024-10-05 10:46:23.133 JST [94] LOG:  statement: begin
+2024-10-05 10:46:23.138 JST [94] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
+2024-10-05 10:46:23.138 JST [94] DETAIL:  Parameters: $1 = 'shop2nd'
+2024-10-05 10:46:23.141 JST [94] LOG:  statement: commit
 ```
 
 - データベース側のクエリーログによりMySQLもExecContextを使って同じようにトランザクション制御できることが確認できる
 
 ```log
-2024-09-18T17:53:36.838944+09:00           12 Query     START TRANSACTION
-2024-09-18T17:53:36.845279+09:00           12 Prepare   DELETE FROM shop WHERE NAME = ?
-2024-09-18T17:53:36.845693+09:00           12 Execute   DELETE FROM shop WHERE NAME = 'shop2nd'
-2024-09-18T17:53:36.846426+09:00           12 Close stmt
-2024-09-18T17:53:36.848369+09:00           12 Query     COMMIT
+2024-10-05T10:46:23.134741+09:00           10 Query     START TRANSACTION
+2024-10-05T10:46:23.139865+09:00           10 Prepare   DELETE FROM shop WHERE NAME = ?
+2024-10-05T10:46:23.140321+09:00           10 Execute   DELETE FROM shop WHERE NAME = 'shop2nd'
+2024-10-05T10:46:23.141383+09:00           10 Close stmt
+2024-10-05T10:46:23.143516+09:00           10 Query     COMMIT
 ```
 
 ## 対話型
@@ -255,7 +257,7 @@ mysql> INSERT INTO shop (name) VALUES ('shopclitx');
 Query OK, 1 row affected (0.00 sec)
 
 mysql> COMMIT;
-Query OK, 0 rows affected (0.00 sec)
+Query OK, 0 rows affected (0.01 sec)
 ```
 
 - 大文字小文字の区別なし（ケース・インセンシティブ）
@@ -286,7 +288,7 @@ mysql> XA PREPARE 'cli';
 Query OK, 0 rows affected (0.01 sec)
 
 mysql> XA COMMIT 'cli';
-Query OK, 0 rows affected (0.01 sec)
+Query OK, 0 rows affected (0.00 sec)
 ```
 
 - ロールバックは`XA ROLLBACK 'cli'`
@@ -305,8 +307,26 @@ go run . ex04xa01
 ```
 
 ```json
-{"time":"2024-09-18T18:00:04.107632935+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
-{"time":"2024-09-18T18:00:04.109266695+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+{"time":"2024-10-05T10:52:07.577642221+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
+{"time":"2024-10-05T10:52:07.580293037+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+```
+
+```log
+2024-10-05 10:52:07.575 JST [114] LOG:  statement: begin
+2024-10-05 10:52:07.576 JST [114] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
+2024-10-05 10:52:07.576 JST [114] DETAIL:  Parameters: $1 = 'shop3rd'
+2024-10-05 10:52:07.580 JST [114] LOG:  statement: prepare transaction 'shop3rd2pc'
+2024-10-05 10:52:07.587 JST [114] LOG:  statement: commit prepared 'shop3rd2pc'
+```
+
+```log
+2024-10-05T10:52:07.575527+09:00           12 Query     XA BEGIN 'shop3rd2pc'
+2024-10-05T10:52:07.578378+09:00           12 Prepare   DELETE FROM shop WHERE NAME = ?
+2024-10-05T10:52:07.579065+09:00           12 Execute   DELETE FROM shop WHERE NAME = 'shop3rd'
+2024-10-05T10:52:07.580479+09:00           12 Close stmt
+2024-10-05T10:52:07.582945+09:00           12 Query     XA END 'shop3rd2pc'
+2024-10-05T10:52:07.583552+09:00           12 Query     XA PREPARE 'shop3rd2pc'
+2024-10-05T10:52:07.589633+09:00           12 Query     XA COMMIT 'shop3rd2pc'
 ```
 
 ### 分離
@@ -322,10 +342,26 @@ go run . ex04xa02
 ```
 
 ```json
-{"time":"2024-09-18T18:01:44.971069915+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
-{"time":"2024-09-18T18:01:44.972711361+09:00","level":"INFO","msg":"prepare transaction"}
-{"time":"2024-09-18T18:01:53.652926155+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
-{"time":"2024-09-18T18:01:53.658452266+09:00","level":"INFO","msg":"XA PREPARE"}
+{"time":"2024-10-05T10:54:29.736760859+09:00","level":"INFO","msg":"INSERT","RowsAffected":1}
+{"time":"2024-10-05T10:54:29.738495867+09:00","level":"INFO","msg":"prepare transaction"}
+{"time":"2024-10-05T10:54:29.740725739+09:00","level":"INFO","msg":"DELETE","RowsAffected":1}
+{"time":"2024-10-05T10:54:29.746594683+09:00","level":"INFO","msg":"XA PREPARE"}
+```
+
+```log
+2024-10-05 10:54:29.734 JST [123] LOG:  statement: begin
+2024-10-05 10:54:29.736 JST [123] LOG:  execute stmtcache_b5197bb703d4895f640c001d049e70c77cbe7dfe8baf65fb: INSERT INTO shop (name) VALUES ($1)
+2024-10-05 10:54:29.736 JST [123] DETAIL:  Parameters: $1 = 'shop4th'
+2024-10-05 10:54:29.737 JST [123] LOG:  statement: prepare transaction 'shop4th2pc'
+```
+
+```log
+2024-10-05T10:54:29.738766+09:00           16 Query     XA BEGIN 'shop4th2pc'
+2024-10-05T10:54:29.739541+09:00           16 Prepare   DELETE FROM shop WHERE NAME = ?
+2024-10-05T10:54:29.739943+09:00           16 Execute   DELETE FROM shop WHERE NAME = 'shop4th'
+2024-10-05T10:54:29.740871+09:00           16 Close stmt
+2024-10-05T10:54:29.741088+09:00           16 Query     XA END 'shop4th2pc'
+2024-10-05T10:54:29.741706+09:00           16 Query     XA PREPARE 'shop4th2pc'
 ```
 
 #### PostgreSQL
@@ -338,7 +374,7 @@ go run . ex04xa02
 postgres=# SELECT * FROM pg_prepared_xacts;
  transaction |    gid     |           prepared            |  owner   | database
 -------------+------------+-------------------------------+----------+----------
-         751 | shop4th2pc | 2024-10-04 16:03:01.025574+09 | postgres | postgres
+         774 | shop4th2pc | 2024-10-05 10:54:29.737204+09 | postgres | postgres
 (1 row)
 
 postgres=# commit prepared 'shop4th2pc';
@@ -378,8 +414,8 @@ postgres=*# INSERT INTO shop (name) VALUES ('shopclisec');
 INSERT 0 1
 postgres=*# SELECT * FROM shop;
  id |    name    |          created_at
-----+------------+------------------------------
-  2 | shopclisec | 2024-10-04 16:05:41.24442+09
+----+------------+-------------------------------
+  2 | shopclisec | 2024-10-05 10:56:53.037752+09
 (1 row)
 
 postgres=*# prepare transaction 'sec';
@@ -387,7 +423,7 @@ PREPARE TRANSACTION
 postgres=# SELECT * FROM pg_prepared_xacts;
  transaction | gid |           prepared            |  owner   | database
 -------------+-----+-------------------------------+----------+----------
-         754 | sec | 2024-10-04 16:06:04.933499+09 | postgres | postgres
+         779 | sec | 2024-10-05 10:57:09.854516+09 | postgres | postgres
 (1 row)
 
 postgres=# SELECT * FROM shop;
@@ -399,8 +435,8 @@ postgres=# commit prepared 'sec';
 COMMIT PREPARED
 postgres=# SELECT * FROM shop;
  id |    name    |          created_at
-----+------------+------------------------------
-  2 | shopclisec | 2024-10-04 16:05:41.24442+09
+----+------------+-------------------------------
+  2 | shopclisec | 2024-10-05 10:56:53.037752+09
 (1 row)
 ```
 
@@ -423,7 +459,7 @@ mysql> SELECT * FROM shop;
 +----+------------+---------------------+
 | id | name       | created_at          |
 +----+------------+---------------------+
-|  1 | shopclisec | 2024-10-04 16:07:32 |
+|  1 | shopclisec | 2024-10-05 10:58:10 |
 +----+------------+---------------------+
 1 row in set (0.00 sec)
 
@@ -453,7 +489,7 @@ mysql> SELECT * FROM shop;
 +----+------------+---------------------+
 | id | name       | created_at          |
 +----+------------+---------------------+
-|  1 | shopclisec | 2024-10-04 16:07:32 |
+|  1 | shopclisec | 2024-10-05 10:58:10 |
 +----+------------+---------------------+
 1 row in set (0.00 sec)
 ```

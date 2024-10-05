@@ -127,10 +127,10 @@ go run . ex03pg01
 ```
 
 ```log
-2024-09-12 19:34:13.280 JST [1554] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:34:13.280 JST [1554] DETAIL:  parameters: $1 = 'Bob'
-2024-09-12 19:34:13.281 JST [1554] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:34:13.281 JST [1554] DETAIL:  parameters: $1 = 'Carol'
+2024-10-05 10:29:40.076 JST [67] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:29:40.076 JST [67] DETAIL:  Parameters: $1 = 'Bob'
+2024-10-05 10:29:40.076 JST [67] LOG:  execute stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:29:40.076 JST [67] DETAIL:  Parameters: $1 = 'Carol'
 ```
 
 - プリペアドステートメントが使われプレースホルダでリスク回避できている
@@ -146,10 +146,10 @@ go run . ex03pg02
 ```
 
 ```log
-2024-09-12 19:35:14.457 JST [1560] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:35:14.457 JST [1560] DETAIL:  parameters: $1 = 'Bob'
-2024-09-12 19:35:14.458 JST [1560] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:35:14.458 JST [1560] DETAIL:  parameters: $1 = 'Carol'
+2024-10-05 10:30:15.241 JST [69] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:30:15.241 JST [69] DETAIL:  Parameters: $1 = 'Bob'
+2024-10-05 10:30:15.241 JST [69] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:30:15.241 JST [69] DETAIL:  Parameters: $1 = 'Carol'
 ```
 
 - PrepareContextを使わなくても、プリペアドステートメントが使われプレースホルダによりリスク回避できている
@@ -166,8 +166,8 @@ go run . ex03pg03
 ```
 
 ```log
-2024-09-12 19:35:35.715 JST [1563] LOG:  execute stmtcache_f751ccf27404db708a88202da6a42e59745f6c76864c555f: SELECT id, name, role FROM staff WHERE name = 'Bob'
-2024-09-12 19:35:35.717 JST [1563] LOG:  execute stmtcache_e04a87592a108755025dbfb325b59b4da703a4dc9a9c4da4: SELECT id, name, role FROM staff WHERE name = 'Carol'
+2024-10-05 10:30:38.361 JST [71] LOG:  execute stmtcache_f751ccf27404db708a88202da6a42e59745f6c76864c555f: SELECT id, name, role FROM staff WHERE name = 'Bob'
+2024-10-05 10:30:38.363 JST [71] LOG:  execute stmtcache_e04a87592a108755025dbfb325b59b4da703a4dc9a9c4da4: SELECT id, name, role FROM staff WHERE name = 'Carol'
 ```
 
 - プリペアドステートメントで実行されているが、プレースホルダを使っていないため、プリペアする時点のSQLに問題があり、脆弱な状態になっている
@@ -183,7 +183,7 @@ go run . ex03pg04
 ```
 
 ```log
-2024-09-12 19:35:58.004 JST [1566] LOG:  execute stmtcache_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
+2024-10-05 10:30:55.931 JST [72] LOG:  execute stmtcache_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
 ```
 
 - 問題のあるSQLが実行されてしまい、staffテーブルの全レコードが返される
@@ -199,7 +199,7 @@ go run . ex03pg05
 ```
 
 ```log
-2024-09-12 19:36:21.648 JST [1569] LOG:  execute stmt_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
+2024-10-05 10:31:13.800 JST [74] LOG:  execute stmt_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
 ```
 
 - 同じように問題のあるSQLが実行されてしまうため、PrepareContextを使うだけでは不十分
@@ -215,8 +215,8 @@ go run . ex03pg06
 ```
 
 ```log
-2024-09-12 19:36:45.670 JST [1571] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:36:45.670 JST [1571] DETAIL:  parameters: $1 = 'Bob'' OR ''1'' = ''1'
+2024-10-05 10:31:33.294 JST [75] LOG:  execute stmtcache_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:31:33.294 JST [75] DETAIL:  Parameters: $1 = 'Bob'' OR ''1'' = ''1'
 ```
 
 - 期待通りリスク回避が機能し、検索結果は0レコードになる
@@ -234,10 +234,10 @@ go run . ex03pg01 pq
 ```
 
 ```log
-2024-09-12 19:37:15.018 JST [1574] LOG:  execute 1: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:37:15.018 JST [1574] DETAIL:  parameters: $1 = 'Bob'
-2024-09-12 19:37:15.019 JST [1574] LOG:  execute 1: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:37:15.019 JST [1574] DETAIL:  parameters: $1 = 'Carol
+2024-10-05 10:31:47.753 JST [77] LOG:  execute 1: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:31:47.753 JST [77] DETAIL:  Parameters: $1 = 'Bob'
+2024-10-05 10:31:47.754 JST [77] LOG:  execute 1: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:31:47.754 JST [77] DETAIL:  Parameters: $1 = 'Carol'
 ```
 
 - 出力されるログの雰囲気は少し変化しているが、プリペアドステートメントが使われプレースホルダによりリスク回避できている
@@ -253,10 +253,10 @@ go run . ex03pg02 pq
 ```
 
 ```log
-2024-09-12 19:37:36.020 JST [1577] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:37:36.020 JST [1577] DETAIL:  parameters: $1 = 'Bob'
-2024-09-12 19:37:36.022 JST [1577] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:37:36.022 JST [1577] DETAIL:  parameters: $1 = 'Carol'
+2024-10-05 10:32:03.285 JST [78] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:32:03.285 JST [78] DETAIL:  Parameters: $1 = 'Bob'
+2024-10-05 10:32:03.286 JST [78] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:32:03.286 JST [78] DETAIL:  Parameters: $1 = 'Carol'
 ```
 
 - PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントが使われリスク回避できている
@@ -272,8 +272,8 @@ go run . ex03pg03 pq
 ```
 
 ```log
-2024-09-12 19:37:55.038 JST [1580] LOG:  statement: SELECT id, name, role FROM staff WHERE name = 'Bob'
-2024-09-12 19:37:55.040 JST [1580] LOG:  statement: SELECT id, name, role FROM staff WHERE name = 'Carol'
+2024-10-05 10:32:20.364 JST [80] LOG:  statement: SELECT id, name, role FROM staff WHERE name = 'Bob'
+2024-10-05 10:32:20.365 JST [80] LOG:  statement: SELECT id, name, role FROM staff WHERE name = 'Carol'
 ```
 
 - プレースホルダが１つもないとプリペアドステートメントは使われない
@@ -292,8 +292,8 @@ go run . ex03pg06 pq
 ```
 
 ```log
-2024-09-12 19:38:12.857 JST [1582] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
-2024-09-12 19:38:12.857 JST [1582] DETAIL:  parameters: $1 = 'Bob'' OR ''1'' = ''1'
+2024-10-05 10:32:35.364 JST [82] LOG:  execute <unnamed>: SELECT id, name, role FROM staff WHERE name = $1
+2024-10-05 10:32:35.364 JST [82] DETAIL:  Parameters: $1 = 'Bob'' OR ''1'' = ''1'
 ```
 
 - プレースホルダを使うことでリスク回避できている
@@ -326,10 +326,10 @@ go run . ex03mysql01
 ```
 
 ```log
-2024-09-12T19:46:49.582390+09:00          101 Prepare   SELECT id, name, role FROM staff WHERE name = ?
-2024-09-12T19:46:49.582816+09:00          101 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob'
-2024-09-12T19:46:49.583816+09:00          101 Execute   SELECT id, name, role FROM staff WHERE name = 'Carol'
-2024-09-12T19:46:49.585165+09:00          101 Close stmt
+2024-10-05T10:33:32.990441+09:00           11 Prepare   SELECT id, name, role FROM staff WHERE name = ?
+2024-10-05T10:33:32.990772+09:00           11 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob'
+2024-10-05T10:33:32.991512+09:00           11 Execute   SELECT id, name, role FROM staff WHERE name = 'Carol'
+2024-10-05T10:33:32.992284+09:00           11 Close stmt
 ```
 
 - PrepareとExecuteが別々の行でログ出力されている
@@ -345,12 +345,12 @@ go run . ex03mysql02
 ```
 
 ```log
-2024-09-12T19:47:40.639029+09:00          105 Prepare   SELECT id, name, role FROM staff WHERE name = ?
-2024-09-12T19:47:40.640158+09:00          105 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob'
-2024-09-12T19:47:40.647704+09:00          105 Close stmt
-2024-09-12T19:47:40.648417+09:00          105 Prepare   SELECT id, name, role FROM staff WHERE name = ?
-2024-09-12T19:47:40.649657+09:00          105 Execute   SELECT id, name, role FROM staff WHERE name = 'Carol'
-2024-09-12T19:47:40.650875+09:00          105 Close stmt
+2024-10-05T10:33:57.293483+09:00           12 Prepare   SELECT id, name, role FROM staff WHERE name = ?
+2024-10-05T10:33:57.293938+09:00           12 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob'
+2024-10-05T10:33:57.295132+09:00           12 Close stmt
+2024-10-05T10:33:57.295459+09:00           12 Prepare   SELECT id, name, role FROM staff WHERE name = ?
+2024-10-05T10:33:57.295885+09:00           12 Execute   SELECT id, name, role FROM staff WHERE name = 'Carol'
+2024-10-05T10:33:57.296759+09:00           12 Close stmt
 ```
 
 - PrepareContextを使わなくてもプレースホルダがあるのでプリペアドステートメントになっていてリスク回避できている
@@ -367,8 +367,8 @@ go run . ex03mysql03
 ```
 
 ```log
-2024-09-12T19:48:13.614113+09:00          107 Query     SELECT id, name, role FROM staff WHERE name = 'Bob'
-2024-09-12T19:48:13.615720+09:00          107 Query     SELECT id, name, role FROM staff WHERE name = 'Carol'
+2024-10-05T10:34:13.455236+09:00           13 Query     SELECT id, name, role FROM staff WHERE name = 'Bob'
+2024-10-05T10:34:13.455986+09:00           13 Query     SELECT id, name, role FROM staff WHERE name = 'Carol'
 ```
 
 - プレースホルダがないとプリペアドステートメントが使われず、リスクのある状態
@@ -384,9 +384,9 @@ go run . ex03mysql04
 ```
 
 ```log
-2024-09-12T19:48:34.573546+09:00          109 Prepare   SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
-2024-09-12T19:48:34.574084+09:00          109 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
-2024-09-12T19:48:34.575692+09:00          109 Close stmt
+2024-10-05T10:34:32.349430+09:00           14 Prepare   SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
+2024-10-05T10:34:32.349728+09:00           14 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
+2024-10-05T10:34:32.350425+09:00           14 Close stmt
 ```
 
 - 問題のあるSQLが実行され、staffテーブルの全レコードが返される
@@ -403,9 +403,9 @@ go run . ex03mysql05
 ```
 
 ```log
-2024-09-12T19:48:52.565190+09:00          111 Prepare   SELECT id, name, role FROM staff WHERE name = ?
-2024-09-12T19:48:52.566128+09:00          111 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob\' OR \'1\' = \'1'
-2024-09-12T19:48:52.567510+09:00          111 Close stmt
+2024-10-05T10:34:49.522057+09:00           15 Prepare   SELECT id, name, role FROM staff WHERE name = ?
+2024-10-05T10:34:49.522383+09:00           15 Execute   SELECT id, name, role FROM staff WHERE name = 'Bob\' OR \'1\' = \'1'
+2024-10-05T10:34:49.523041+09:00           15 Close stmt
 ```
 
 - プレースホルダを使うことでリスク回避できている

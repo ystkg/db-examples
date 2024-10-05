@@ -89,7 +89,7 @@ go run . ex01mysql01
 ```
 
 ```json
-{"time":"2024-09-06T10:01:42.634960998+09:00","level":"INFO","msg":"SELECT","id":106,"title":"タイトルA","created_at":"2024-09-06T10:01:43+09:00","updated_at":"2024-09-06T10:01:43+09:00"}
+{"time":"2024-10-05T10:12:56.579056406+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-10-05T10:12:57+09:00","updated_at":"2024-10-05T10:12:57+09:00"}
 ```
 
 - 実行するとINSERTしたレコードをSELECTした結果がログに出力される
@@ -105,8 +105,8 @@ go run . ex01mysql02
 ```
 
 ```json
-{"time":"2024-09-06T10:02:06.951204759+09:00","level":"INFO","msg":"INSERT","lastInsertId":100,"rowsAffected":1}
-{"time":"2024-09-06T10:02:06.952892057+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-09-06T10:02:07+09:00","updated_at":"2024-09-06T10:02:07+09:00"}
+{"time":"2024-10-05T10:13:19.662735029+09:00","level":"INFO","msg":"INSERT","lastInsertId":100,"rowsAffected":1}
+{"time":"2024-10-05T10:13:19.664145851+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-10-05T10:13:20+09:00","updated_at":"2024-10-05T10:13:20+09:00"}
 ```
 
 - 合わせて `RowsAffected()` でINSERTされたレコード数の取得
@@ -122,11 +122,11 @@ go run . ex01mysql03
 ```
 
 ```json
-{"time":"2024-09-06T10:02:33.069244776+09:00","level":"INFO","msg":"INSERT","lastInsertId":100,"rowsAffected":3}
-{"time":"2024-09-06T10:02:33.070456228+09:00","level":"INFO","msg":"SELECT","id":102,"title":"タイトルC","created_at":"2024-09-06T10:02:33+09:00","updated_at":"2024-09-06T10:02:33+09:00"}
-{"time":"2024-09-06T10:02:33.070501053+09:00","level":"INFO","msg":"SELECT","id":101,"title":"タイトルB","created_at":"2024-09-06T10:02:33+09:00","updated_at":"2024-09-06T10:02:33+09:00"}
-{"time":"2024-09-06T10:02:33.070518015+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-09-06T10:02:33+09:00","updated_at":"2024-09-06T10:02:33+09:00"}
-{"time":"2024-09-06T10:02:33.072120432+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
+{"time":"2024-10-05T10:13:39.623403726+09:00","level":"INFO","msg":"INSERT","lastInsertId":100,"rowsAffected":3}
+{"time":"2024-10-05T10:13:39.624580429+09:00","level":"INFO","msg":"SELECT","id":102,"title":"タイトルC","created_at":"2024-10-05T10:13:40+09:00","updated_at":"2024-10-05T10:13:40+09:00"}
+{"time":"2024-10-05T10:13:39.624624734+09:00","level":"INFO","msg":"SELECT","id":101,"title":"タイトルB","created_at":"2024-10-05T10:13:40+09:00","updated_at":"2024-10-05T10:13:40+09:00"}
+{"time":"2024-10-05T10:13:39.624632558+09:00","level":"INFO","msg":"SELECT","id":100,"title":"タイトルA","created_at":"2024-10-05T10:13:40+09:00","updated_at":"2024-10-05T10:13:40+09:00"}
+{"time":"2024-10-05T10:13:39.625854118+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
 ```
 
 - `LastInsertId()` は最後のレコードのidではなく、最初のレコードのid
@@ -145,7 +145,7 @@ go run . ex01pg01
 ```
 
 ```json
-{"time":"2024-09-06T10:02:59.167217586+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:02:59.163901+09:00","updated_at":"2024-09-06T10:02:59.163901+09:00"}
+{"time":"2024-10-05T10:15:05.345788408+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-10-05T10:15:05.339399+09:00","updated_at":"2024-10-05T10:15:05.339399+09:00"}
 ```
 
 ### LastInsertId
@@ -161,7 +161,7 @@ go run . ex01pg02
 ```
 
 ```json
-{"time":"2024-09-06T10:03:23.027133682+09:00","level":"INFO","msg":"INSERT","lastInsertId":0,"errLastInsertId":"LastInsertId is not supported by this driver","rowsAffected":1,"errRowsAffected":null}
+{"time":"2024-10-05T10:15:21.432025599+09:00","level":"INFO","msg":"INSERT","lastInsertId":0,"errLastInsertId":"LastInsertId is not supported by this driver","rowsAffected":1,"errRowsAffected":null}
 ```
 
 ### RETURNING
@@ -175,8 +175,8 @@ go run . ex01pg03
 ```
 
 ```json
-{"time":"2024-09-06T10:03:44.995052984+09:00","level":"INFO","msg":"INSERT","insertId":1}
-{"time":"2024-09-06T10:03:44.996889808+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:03:44.992698+09:00","updated_at":"2024-09-06T10:03:44.992698+09:00"}
+{"time":"2024-10-05T10:15:34.658827958+09:00","level":"INFO","msg":"INSERT","insertId":1}
+{"time":"2024-10-05T10:15:34.660122687+09:00","level":"INFO","msg":"SELECT","id":1,"title":"タイトルA","created_at":"2024-10-05T10:15:34.657634+09:00","updated_at":"2024-10-05T10:15:34.657634+09:00"}
 ```
 
 - `Scan()` してデータベース側で採番されたidを取得
@@ -192,8 +192,8 @@ go run . ex01pg04
 ```
 
 ```json
-{"time":"2024-09-06T10:04:11.397834844+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
-{"time":"2024-09-06T10:04:11.400161222+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
+{"time":"2024-10-05T10:15:54.043336428+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
+{"time":"2024-10-05T10:15:54.044646326+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
 ```
 
 - INSERTした全てのレコードのidを取得することができる
@@ -212,10 +212,10 @@ go run . ex01pg05
 ```
 
 ```json
-{"time":"2024-09-06T10:04:37.712347253+09:00","level":"INFO","msg":"INSERT","id":1,"title":"タイトルA","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
-{"time":"2024-09-06T10:04:37.712436243+09:00","level":"INFO","msg":"INSERT","id":2,"title":"タイトルB","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
-{"time":"2024-09-06T10:04:37.712444068+09:00","level":"INFO","msg":"INSERT","id":3,"title":"タイトルC","created_at":"2024-09-06T10:04:37.710832+09:00","updated_at":"2024-09-06T10:04:37.710832+09:00"}
-{"time":"2024-09-06T10:04:37.713953458+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
+{"time":"2024-10-05T10:16:14.921690858+09:00","level":"INFO","msg":"INSERT","id":1,"title":"タイトルA","created_at":"2024-10-05T10:16:14.920388+09:00","updated_at":"2024-10-05T10:16:14.920388+09:00"}
+{"time":"2024-10-05T10:16:14.921748798+09:00","level":"INFO","msg":"INSERT","id":2,"title":"タイトルB","created_at":"2024-10-05T10:16:14.920388+09:00","updated_at":"2024-10-05T10:16:14.920388+09:00"}
+{"time":"2024-10-05T10:16:14.921755862+09:00","level":"INFO","msg":"INSERT","id":3,"title":"タイトルC","created_at":"2024-10-05T10:16:14.920388+09:00","updated_at":"2024-10-05T10:16:14.920388+09:00"}
+{"time":"2024-10-05T10:16:14.923161462+09:00","level":"INFO","msg":"DELETE","rowsAffected":3}
 ```
 
 ### INSERT以外
@@ -230,10 +230,10 @@ go run . ex01pg06
 ```
 
 ```json
-{"time":"2024-09-06T10:04:59.531383894+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
-{"time":"2024-09-06T10:04:59.533002872+09:00","level":"INFO","msg":"DELETE","id":1,"title":"タイトルA","created_at":"2024-09-06T10:04:59.52977+09:00","updated_at":"2024-09-06T10:04:59.52977+09:00"}
-{"time":"2024-09-06T10:04:59.533043289+09:00","level":"INFO","msg":"DELETE","id":2,"title":"タイトルB","created_at":"2024-09-06T10:04:59.52977+09:00","updated_at":"2024-09-06T10:04:59.52977+09:00"}
-{"time":"2024-09-06T10:04:59.533071212+09:00","level":"INFO","msg":"DELETE","id":3,"title":"タイトルC","created_at":"2024-09-06T10:04:59.52977+09:00","updated_at":"2024-09-06T10:04:59.52977+09:00"}
+{"time":"2024-10-05T10:16:30.626258721+09:00","level":"INFO","msg":"INSERT","ids":[1,2,3]}
+{"time":"2024-10-05T10:16:30.627607273+09:00","level":"INFO","msg":"DELETE","id":1,"title":"タイトルA","created_at":"2024-10-05T10:16:30.625113+09:00","updated_at":"2024-10-05T10:16:30.625113+09:00"}
+{"time":"2024-10-05T10:16:30.627651297+09:00","level":"INFO","msg":"DELETE","id":2,"title":"タイトルB","created_at":"2024-10-05T10:16:30.625113+09:00","updated_at":"2024-10-05T10:16:30.625113+09:00"}
+{"time":"2024-10-05T10:16:30.627680052+09:00","level":"INFO","msg":"DELETE","id":3,"title":"タイトルC","created_at":"2024-10-05T10:16:30.625113+09:00","updated_at":"2024-10-05T10:16:30.625113+09:00"}
 ```
 
 - REST APIにおけるDELETEメソッドでは `204（No Content）` で返す設計にすることも多いが、削除したリソースをレスポンスで返すよう要求される場面で活用できる

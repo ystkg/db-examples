@@ -72,6 +72,11 @@ func stats(db *sql.DB, msg string) {
 	slog.Info(fmt.Sprintf("%-6s", msg), "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle)
 }
 
+func statsIdName(db *sql.DB, msg string, id int32, name string) {
+	stats := db.Stats()
+	slog.Info(fmt.Sprintf("%-6s", msg), "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle, "id", id, "name", name)
+}
+
 func statsErr(db *sql.DB, msg string, err error) {
 	stats := db.Stats()
 	slog.Info(fmt.Sprintf("%-6s", msg), "Open", stats.OpenConnections, "InUse", stats.InUse, "Idle", stats.Idle, "err", err)
