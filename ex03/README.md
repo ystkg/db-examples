@@ -4,7 +4,7 @@
 
 - SQLインジェクションのリスクを回避する対策として、プレースホルダ（placeholder）とプリペアドステートメント（prepared statement）が用いる方法がとられる
 - Goの標準ライブラリ（database/sqlパッケージ）にある `PrepareContext()` との関連性を整理
-- SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分にバリデーションされていることを前提とする
+- SQLインジェクション対策のセーフティネットの位置付けとし、前段で入力に対し十分にバリデーションされていることは前提とする
 
 ## Docker
 
@@ -186,7 +186,7 @@ go run . ex03pg04
 2024-09-12 19:35:58.004 JST [1566] LOG:  execute stmtcache_930bcfe0a57b90d79cab3d327afcc399189a0caf198b438f: SELECT id, name, role FROM staff WHERE name = 'Bob' OR '1' = '1'
 ```
 
-- 問題のあるSQLが実行されてしまい、staffテーブルの全レコードが返されている
+- 問題のあるSQLが実行されてしまい、staffテーブルの全レコードが返される
 
 ### プレースホルダなし
 
@@ -261,14 +261,14 @@ go run . ex03pg02 pq
 
 - PrepareContextを使わない場合でも同様にプレースホルダがあるとプリペアドステートメントが使われリスク回避できている
 
-### プレースホルダなし
+### 文字列操作
 
-- SQLドライバを pq にしてプレースホルダを使わず、PrepareContextを使ったときのデータベース側のクエリーログを確認
+- SQLドライバを pq にしてパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
 ```shell
-go run . ex03pg05 pq
+go run . ex03pg03 pq
 ```
 
 ```log
@@ -277,6 +277,7 @@ go run . ex03pg05 pq
 ```
 
 - プレースホルダが１つもないとプリペアドステートメントは使われない
+- 脆弱な状態になっている
 
 https://github.com/lib/pq/blob/v1.10.9/conn.go#L900-L904
 
@@ -302,23 +303,15 @@ go run . ex03pg06 pq
 クエリーログに出力されているプリペアドステートメントの名前はSQLドライバ側で付けられている。<br>
 （例： `stmt_8b2eda7af60ccc71922fa6d55c2c84253fe4f0a503bdc7de` ）
 
-pgxではプレフィックス（ "stmt_" ）の後ろの部分がSQLのダイジェストになっていて、同一のSQLであれば同じ名前になる。
-
-https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L339-L340
-
-pqでは `PrepareContext()` を使った際に番号が振られる。
-
-https://github.com/lib/pq/blob/v1.10.9/conn.go#L665-L668
-
-また、pgxではデフォルトのキャッシュするモードが使われているとき"stmtcache_"で始まる名前になる。
-
-https://github.com/jackc/pgx/blob/v5.7.1/internal/stmtcache/stmtcache.go#L13-L16
-
-pgxでは、このモードをオプションのdefault_query_exec_modeで変更することができる。
-
-https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L194-L203
-
-https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L629-L668
+- pgxではプレフィックス（ "stmt_" ）の後ろの部分がSQLのダイジェストになっていて、同一のSQLであれば同じ名前になる
+  - https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L339-L340
+- pqでは `PrepareContext()` を使った際に番号が振られる
+  - https://github.com/lib/pq/blob/v1.10.9/conn.go#L665-L668
+- pgxではデフォルトのキャッシュするモードが使われているとき"stmtcache_"で始まる名前になる
+  - https://github.com/jackc/pgx/blob/v5.7.1/internal/stmtcache/stmtcache.go#L13-L16
+- pgxでは、このモードをオプションのdefault_query_exec_modeで変更することができる
+  - https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L194-L203
+  - https://github.com/jackc/pgx/blob/v5.7.1/conn.go#L629-L668
 
 ## MySQL
 
@@ -396,7 +389,7 @@ go run . ex03mysql04
 2024-09-12T19:48:34.575692+09:00          109 Close stmt
 ```
 
-- 問題のあるSQLが実行され、staffテーブルの全レコードが返されている
+- 問題のあるSQLが実行され、staffテーブルの全レコードが返される
 - プリペアする時点のSQLに問題があることが判別しやすい
 
 ### プレースホルダ

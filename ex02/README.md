@@ -84,8 +84,9 @@ go run . ex0202
 ```
 
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
+  - [プールの各ステータス](https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196)
 
-https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196
+https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/main.go#L70-L73
 
 ## \*sql.DB/*sql.Tx
 
@@ -123,8 +124,8 @@ go run . ex0204
 
 ## \*sql.Conn/*sql.Tx
 
-- \*sql.DBでBeginTxした場合と*sql.ConnでBeginTxした場合とで異なる
-  - \*sql.ConnのCommitとRollbackではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
+- \*sql.DBで `BeginTx()` した場合と*sql.Connで `BeginTx()` した場合とで挙動が異なる
+- \*sql.Connで `BeginTx()` した場合は `Commit()` と `Rollback()` ではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex02/ex0205.go#L12-L23
 

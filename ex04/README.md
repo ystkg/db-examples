@@ -404,8 +404,8 @@ postgres=# SELECT * FROM shop;
 (1 row)
 ```
 
-- `prepare transaction` を実行するとセキュア状態になっているレコードが参照できなくなり、 `commit prepared` で再び参照できるようになる
-- `prepare transaction` と `commit prepared` の間ではSELECTだけでなく、INSERTなど更新も実行することができるが、その更新内容がセキュア状態になっているトランザクションに含まれることはなく、別トランザクションの扱いになる
+- `prepare transaction` を実行するとセキュア状態になったレコードを参照できなくなり、 `commit prepared` で再び参照できるようになる
+- `prepare transaction` と `commit prepared` の間ではSELECTだけでなく、INSERTなど更新も実行することができるが、その更新内容はセキュア状態にしたトランザクションに含まれることはなく、別トランザクションの扱いになる
 
 ### MySQL
 
@@ -458,7 +458,7 @@ mysql> SELECT * FROM shop;
 1 row in set (0.00 sec)
 ```
 
-- `XA PREPARE` を実行するとセキュア状態になっているレコードが参照できなくなり、 `XA COMMIT` で再び参照できるようになる
+- `XA PREPARE` を実行するとセキュア状態になったレコードを参照できなくなり、 `XA COMMIT` で再び参照できるようになる
 - `XA END` と `XA PREPARE` の間はIDLE状態なのでSELECTも実行できずエラーになる
 
 ## 関連ドキュメント
