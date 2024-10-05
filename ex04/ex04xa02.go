@@ -86,6 +86,7 @@ func ex04Xa02MySQL(ctx context.Context, db *sql.DB) error {
 			slog.WarnContext(ctx, "Close", "err", err)
 		}
 	}()
+
 	name := "shop4th"
 	transactionId := "shop4th2pc"
 	prepared := false

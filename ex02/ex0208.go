@@ -25,7 +25,7 @@ func Ex0208(ctx context.Context, db *sql.DB) error {
 	rows.Next() // （trueなので）ここでは返却されない
 	rows.Scan(&id, &name)
 
-	stats(db, "before")
+	statsIdName(db, "before", id, name)
 	rows.Next() // （falseなので）ここで返却
 	stats(db, "after")
 
