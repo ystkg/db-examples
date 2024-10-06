@@ -229,7 +229,7 @@ go run . ex01pg04
 - 例えば、デフォルトの値が設定されるカラムや、created_atやupdated_atにデータベース側で時刻が設定される場合でも取得できる
 - 全カラム名を列挙したり、 `RETURNING *` とすれば全カラムを取得できる
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg05.go#L25-L67
+https://github.com/ystkg/db-examples/blob/abe84ec0e80d7ae5f48b0ebf1ed83f39f770ca55/ex01/ex01pg05.go#L25-L74
 
 ```shell
 go run . ex01pg05
