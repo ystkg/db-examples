@@ -122,8 +122,7 @@ https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b7618237
 https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
 
 - driverNameは `pgx`
-
-[sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
+  - [sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
 
 ### PostgreSQL(pq)
 
@@ -132,8 +131,7 @@ https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b7618237
 https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
 
 - driverNameは `postgres`
-
-[sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
+  - [sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
 
 ### MySQL
 
