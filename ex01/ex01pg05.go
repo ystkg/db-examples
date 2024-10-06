@@ -25,7 +25,14 @@ func Ex01Pg05(ctx context.Context, db *sql.DB) error {
 	// INSERT
 	now := time.Now()
 	rows, err := tx.QueryContext(ctx,
-		"INSERT INTO movie (title, created_at, updated_at) VALUES ($1, $2, $3), ($4, $5, $6), ($7, $8, $9) RETURNING id, title, created_at, updated_at",
+		`
+		INSERT INTO movie (title, created_at, updated_at)
+		VALUES
+		  ($1, $2, $3),
+		  ($4, $5, $6),
+		  ($7, $8, $9)
+		RETURNING id, title, created_at, updated_at
+		`,
 		"タイトルA", now, now,
 		"タイトルB", now, now,
 		"タイトルC", now, now,
