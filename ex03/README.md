@@ -135,7 +135,7 @@ https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b7618237
 
 ### MySQL
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L118-L128
+https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex03/main.go#L118-L127
 
 ## PostgreSQL
 

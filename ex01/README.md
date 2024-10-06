@@ -79,7 +79,7 @@ go run . ex01pg01 pq
 
 ### データベース接続
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L112-L124
+https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex01/main.go#L112-L123
 
 ### INSERT/SELECT/DELETE
 
