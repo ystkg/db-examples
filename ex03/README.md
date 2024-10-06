@@ -113,6 +113,30 @@ go run . ex03mysql01
 go run . ex03pg01 pq
 ```
 
+## データベース接続
+
+### PostgreSQL(pgx)
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L15
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
+
+- driverNameは `pgx`
+  - [sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
+
+### PostgreSQL(pq)
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L16
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
+
+- driverNameは `postgres`
+  - [sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
+
+### MySQL
+
+https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex03/main.go#L118-L127
+
 ## PostgreSQL
 
 ### PrepareContext
@@ -161,8 +185,10 @@ go run . ex03pg02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03pg03
+go run -tags deprecated . ex03pg03
 ```
 
 ```log
@@ -178,8 +204,10 @@ go run . ex03pg03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg04.go#L16-L25
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03pg04
+go run -tags deprecated . ex03pg04
 ```
 
 ```log
@@ -194,8 +222,10 @@ go run . ex03pg04
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03pg05
+go run -tags deprecated . ex03pg05
 ```
 
 ```log
@@ -267,8 +297,10 @@ go run . ex03pg02 pq
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03pg03 pq
+go run -tags deprecated . ex03pg03 pq
 ```
 
 ```log
@@ -362,8 +394,10 @@ go run . ex03mysql02
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03mysql03
+go run -tags deprecated . ex03mysql03
 ```
 
 ```log
@@ -379,8 +413,10 @@ go run . ex03mysql03
 
 https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql04.go#L16-L32
 
+- 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
+
 ```shell
-go run . ex03mysql04
+go run -tags deprecated . ex03mysql04
 ```
 
 ```log

@@ -124,7 +124,6 @@ func setupMySQL(ctx context.Context) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	db := sql.OpenDB(conn)
 
 	_, err = db.ExecContext(ctx, mysqlclean)

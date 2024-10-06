@@ -77,6 +77,10 @@ go run . ex01pg01 pq
 
 ## MySQL
 
+### データベース接続
+
+https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex01/main.go#L112-L123
+
 ### INSERT/SELECT/DELETE
 
 - 1レコードINSERTしたあと、SELECTして、最後にDELETEする
@@ -133,6 +137,26 @@ go run . ex01mysql03
 - SELECT結果のログ出力は `ORDER BY id DESC` としているのでINSERTとは逆順
 
 ## PostgreSQL
+
+### データベース接続
+
+#### pgx
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L15
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L70-L74
+
+- driverNameは `pgx`
+  - [sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
+
+#### pq
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L16
+
+https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L70-L74
+
+- driverNameは `postgres`
+  - [sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
 
 ### INSERT/SELECT/DELETE
 
@@ -205,7 +229,7 @@ go run . ex01pg04
 - 例えば、デフォルトの値が設定されるカラムや、created_atやupdated_atにデータベース側で時刻が設定される場合でも取得できる
 - 全カラム名を列挙したり、 `RETURNING *` とすれば全カラムを取得できる
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg05.go#L25-L67
+https://github.com/ystkg/db-examples/blob/abe84ec0e80d7ae5f48b0ebf1ed83f39f770ca55/ex01/ex01pg05.go#L25-L74
 
 ```shell
 go run . ex01pg05
@@ -240,6 +264,8 @@ go run . ex01pg06
 - 複数レコードのUPDATEを実行した際などに主キーをログに残すようなことにも活用できる
 
 ## 関連ドキュメント
+
+<https://go.dev/doc/database/open-handle>
 
 <https://go.dev/doc/database/change-data>
 
