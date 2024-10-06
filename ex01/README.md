@@ -10,7 +10,7 @@
 
 データベースはPostgreSQLとMySQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/docker-compose.yml#L1-L19
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/docker-compose.yml#L1-L19
 
 ### データベースのコンテナ起動
 
@@ -79,14 +79,14 @@ go run . ex01pg01 pq
 
 ### データベース接続
 
-https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex01/main.go#L112-L123
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/main.go#L112-L123
 
 ### INSERT/SELECT/DELETE
 
 - 1レコードINSERTしたあと、SELECTして、最後にDELETEする
 - 更新で `ExecContext` を使い、1レコードの取得で `QueryRowContext` を使う
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql01.go#L11-L59
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01mysql01.go#L11-L59
 
 ```shell
 go run . ex01mysql01
@@ -102,7 +102,7 @@ go run . ex01mysql01
 
 - INSERTを実行した `ExecContext` の戻り値でデータベース側で採番されたidを取得する
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql02.go#L23-L51
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01mysql02.go#L23-L51
 
 ```shell
 go run . ex01mysql02
@@ -119,7 +119,7 @@ go run . ex01mysql02
 
 - 複数レコードをINSERTする
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01mysql03.go#L25-L79
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01mysql03.go#L25-L79
 
 ```shell
 go run . ex01mysql03
@@ -142,18 +142,18 @@ go run . ex01mysql03
 
 #### pgx
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L15
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/main.go#L15
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L70-L74
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/main.go#L70-L74
 
 - driverNameは `pgx`
   - [sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
 
 #### pq
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L16
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/main.go#L16
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex01/main.go#L70-L74
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/main.go#L70-L74
 
 - driverNameは `postgres`
   - [sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
@@ -162,7 +162,7 @@ https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b7618237
 
 - PostgreSQLでは、プレースホルダに `?` ではなく `$1,$2,・・・` を使う
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg01.go#L11-L59
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg01.go#L11-L59
 
 ```shell
 go run . ex01pg01
@@ -178,7 +178,7 @@ go run . ex01pg01
   - `pgx` と `pq` のどちらSQLドライバでもサポートされてない
 - `RowsAffected()` でレコード数の取得はできる
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg02.go#L23-L34
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg02.go#L23-L34
 
 ```shell
 go run . ex01pg02
@@ -192,7 +192,7 @@ go run . ex01pg02
 
 - PostgreSQLでは、データベース側で採番されたidの取得には `RETURNING` で `QueryRowContext` を使う
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg03.go#L23-L56
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg03.go#L23-L56
 
 ```shell
 go run . ex01pg03
@@ -209,7 +209,7 @@ go run . ex01pg03
 
 - 複数レコードをINSERTする場合は、データベース側で採番されるidも複数になるので `QueryRowContext` ではなく `QueryContext` を使う
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg04.go#L25-L65
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg04.go#L25-L65
 
 ```shell
 go run . ex01pg04
@@ -229,7 +229,7 @@ go run . ex01pg04
 - 例えば、デフォルトの値が設定されるカラムや、created_atやupdated_atにデータベース側で時刻が設定される場合でも取得できる
 - 全カラム名を列挙したり、 `RETURNING *` とすれば全カラムを取得できる
 
-https://github.com/ystkg/db-examples/blob/abe84ec0e80d7ae5f48b0ebf1ed83f39f770ca55/ex01/ex01pg05.go#L25-L74
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg05.go#L25-L74
 
 ```shell
 go run . ex01pg05
@@ -247,7 +247,7 @@ go run . ex01pg05
 - `RETURNING` はINSERTだけでなく、UPDATEやDELETEでも使える
 - DELETEでの例
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex01/ex01pg06.go#L25-L78
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex01/ex01pg06.go#L25-L78
 
 ```shell
 go run . ex01pg06

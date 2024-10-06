@@ -10,7 +10,7 @@
 
 データベースはPostgreSQLとMySQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/docker-compose.yml#L1-L19
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/docker-compose.yml#L1-L19
 
 ### データベースのコンテナ起動
 
@@ -42,7 +42,7 @@ docker compose down
 
 接続オプションに `log_statement=all` を追加
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/main.go#L77
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L77
 
 #### クエリーログの参照
 
@@ -86,9 +86,9 @@ erDiagram
 
 - PostgreSQLとMySQLともに初期データを入れておく
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/table/pg.dml#L1-L4
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/table/pg.dml#L1-L4
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/table/mysql.dml#L1-L4
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/table/mysql.dml#L1-L4
 
 ## サンプルコードの実行
 
@@ -117,25 +117,25 @@ go run . ex03pg01 pq
 
 ### PostgreSQL(pgx)
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L15
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L15
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L76-L80
 
 - driverNameは `pgx`
   - [sql.Openの例](https://github.com/jackc/pgx/blob/v5.7.1/stdlib/sql.go#L5)
 
 ### PostgreSQL(pq)
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L16
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L16
 
-https://github.com/ystkg/db-examples/blob/a90d5030c46fb38b704f2ed9fb2698b761823739/ex03/main.go#L76-L80
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L76-L80
 
 - driverNameは `postgres`
   - [sql.Openの例](https://github.com/lib/pq/blob/v1.10.9/url.go#L14)
 
 ### MySQL
 
-https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd622e/ex03/main.go#L118-L127
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/main.go#L118-L127
 
 ## PostgreSQL
 
@@ -144,7 +144,7 @@ https://github.com/ystkg/db-examples/blob/8606dcab6480b82ed10a9e8fc70e84e417bd62
 - PrepareContextを使ったときのデータベース側のクエリーログを確認
 - クエリーログの確認が目的のため、レコードの取得処理は省略し、rowsは即 `Close()`
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg01.go#L8-L41
 
 ```shell
 go run . ex03pg01
@@ -163,7 +163,7 @@ go run . ex03pg01
 
 - PrepareContextを使わずにQueryContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg02.go#L15-L35
 
 ```shell
 go run . ex03pg02
@@ -183,7 +183,7 @@ go run . ex03pg02
 
 - パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L16-L36
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -202,7 +202,7 @@ go run -tags deprecated . ex03pg03
 
 - 実際に不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg04.go#L16-L25
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg04.go#L16-L25
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -220,7 +220,7 @@ go run -tags deprecated . ex03pg04
 
 - プレースホルダを使わないままで、PrepareContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg05.go#L16-L32
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg05.go#L16-L32
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -238,7 +238,7 @@ go run -tags deprecated . ex03pg05
 
 - プレースホルダを使って不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg06.go#L15-L24
 
 ```shell
 go run . ex03pg06
@@ -257,7 +257,7 @@ go run . ex03pg06
 
 - SQLドライバを pq にしてPrepareContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg01.go#L8-L41
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg01.go#L8-L41
 
 ```shell
 go run . ex03pg01 pq
@@ -276,7 +276,7 @@ go run . ex03pg01 pq
 
 - SQLドライバを pq にしてQueryContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg02.go#L15-L35
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg02.go#L15-L35
 
 ```shell
 go run . ex03pg02 pq
@@ -295,7 +295,7 @@ go run . ex03pg02 pq
 
 - SQLドライバを pq にしてパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L16-L36
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -317,7 +317,7 @@ https://github.com/lib/pq/blob/v1.10.9/conn.go#L900-L904
 
 - SQLドライバを pq にしてプレースホルダを使って不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03pg06.go#L15-L24
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg06.go#L15-L24
 
 ```shell
 go run . ex03pg06 pq
@@ -351,7 +351,7 @@ go run . ex03pg06 pq
 
 - MySQLでPrepareContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql01.go#L8-L41
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql01.go#L8-L41
 
 ```shell
 go run . ex03mysql01
@@ -370,7 +370,7 @@ go run . ex03mysql01
 
 - MySQLでQueryContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql02.go#L15-L35
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql02.go#L15-L35
 
 ```shell
 go run . ex03mysql02
@@ -392,7 +392,7 @@ go run . ex03mysql02
 
 - MySQLでパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql03.go#L16-L36
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -411,7 +411,7 @@ go run -tags deprecated . ex03mysql03
 
 - 実際に不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql04.go#L16-L32
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql04.go#L16-L32
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -432,7 +432,7 @@ go run -tags deprecated . ex03mysql04
 
 - プレースホルダを使って不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/71ee2b2fcb12ecb81da92a7ff1b9e3f29a4fd427/ex03/ex03mysql05.go#L15-L24
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql05.go#L15-L24
 
 ```shell
 go run . ex03mysql05
