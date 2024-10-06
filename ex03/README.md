@@ -183,7 +183,7 @@ go run . ex03pg02
 
 - パラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L18-L38
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -202,7 +202,7 @@ go run -tags deprecated . ex03pg03
 
 - 実際に不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg04.go#L16-L25
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg04.go#L18-L27
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -220,7 +220,7 @@ go run -tags deprecated . ex03pg04
 
 - プレースホルダを使わないままで、PrepareContextを使ったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg05.go#L16-L32
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg05.go#L18-L34
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -295,7 +295,7 @@ go run . ex03pg02 pq
 
 - SQLドライバを pq にしてパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03pg03.go#L18-L38
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -392,7 +392,7 @@ go run . ex03mysql02
 
 - MySQLでパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql03.go#L16-L36
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql03.go#L18-L38
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
@@ -411,7 +411,7 @@ go run -tags deprecated . ex03mysql03
 
 - 実際に不正なパラメータを与えて確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql04.go#L16-L32
+https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex03/ex03mysql04.go#L18-L34
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
