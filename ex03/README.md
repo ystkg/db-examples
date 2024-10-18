@@ -287,7 +287,7 @@ go run . ex03pg02 pq
 
 - SQLドライバを pq にしてパラメータにプレースホルダを使わず、問題のある文字列操作でSQLを組み立ててしまったときのデータベース側のクエリーログを確認
 
-https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex03/ex03pg03.go#L18-L38
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex03/ex03pg03.go#L19-L39
 
 - 望ましくない実装のため実行する際は注意喚起の目的で `deprecated` タグの指定が必要
 
