@@ -9,7 +9,9 @@
 
 データベースはPostgreSQLとMySQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/docker-compose.yml#L1-L21
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/docker-compose.yml#L2-L11
+
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/docker-compose.yml#L17-L26
 
 - PostgreSQLで2相コミットを有効化するために `max_prepared_transactions` を 1 にする
   - `max_prepared_transactions` は同時にプリペアド状態にできるトランザクションの最大数
@@ -22,23 +24,13 @@ https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d60102
 
 ### データベースのコンテナ起動
 
-```shell
-docker-compose up -d
+```Shell
+docker compose up -d --wait
 ```
 
-もしくはDocker Composeのプラグイン版なら
-
-```shell
-docker compose up -d
-```
+- Docker Composeはプラグイン版
 
 ### データベースのコンテナ削除
-
-```shell
-docker-compose down
-```
-
-もしくはDocker Composeのプラグイン版なら
 
 ```shell
 docker compose down
@@ -106,7 +98,7 @@ erDiagram
 
 - MySQLにだけ初期データを入れておく
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/table/mysql.dml#L1-L5
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/table/mysql.dml#L1-L5
 
 ## サンプルコードの実行
 
@@ -130,7 +122,7 @@ go run . ex04tx01
 - PostgreSQLに1レコードINSERTして、MySQLから1レコードDELETEする
   - データベース間でデータを移動させるイメージ
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/ex04tx01.go#L10-L92
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/ex04tx01.go#L10-L92
 
 ```shell
 go run . ex04tx01
@@ -171,7 +163,7 @@ go run . ex04tx01
 - BeginTxとCommitは使わずExecContextを使ってトランザクションを制御する
 - 送信するトランザクションのコマンドは、PostgreSQLは小文字表記にし、MySQLは大文字表記にする
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/ex04tx02.go#L32-L96
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/ex04tx02.go#L32-L96
 
 ```shell
 go run . ex04tx02
@@ -300,7 +292,7 @@ Query OK, 0 rows affected (0.00 sec)
 - ExecContextを使って2相コミットを制御する
   - トランザクション識別子はPostgreSQL（ *transaction_id* ）とMySQL（ *xid* ）で別々にもできるが、例では同じ識別子にしておく
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/ex04xa01.go#L37-L149
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/ex04xa01.go#L37-L149
 
 ```shell
 go run . ex04xa01
@@ -333,9 +325,9 @@ go run . ex04xa01
 
 - PREPAREの実行（セキュア状態にする）までとCOMMITの実行を別々に分ける
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/ex04xa02.go#L38-L74
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/ex04xa02.go#L38-L74
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/ex04xa02.go#L90-L140
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/ex04xa02.go#L90-L140
 
 ```shell
 go run . ex04xa02
