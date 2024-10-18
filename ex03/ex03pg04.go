@@ -8,6 +8,7 @@ import (
 	"fmt"
 )
 
+// Deprecated: 対比説明用
 func Ex03Pg04(ctx context.Context, db *sql.DB) error {
 	conn, err := db.Conn(ctx)
 	if err != nil {
