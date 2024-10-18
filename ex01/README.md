@@ -14,23 +14,13 @@ https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d60102
 
 ### データベースのコンテナ起動
 
-```shell
-docker-compose up -d
+```Shell
+docker compose up -d --wait
 ```
 
-もしくはDocker Composeのプラグイン版なら
-
-```shell
-docker compose up -d
-```
+- Docker Composeはプラグイン版
 
 ### データベースのコンテナ削除
-
-```shell
-docker-compose down
-```
-
-もしくはDocker Composeのプラグイン版なら
 
 ```shell
 docker compose down

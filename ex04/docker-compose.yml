@@ -9,6 +9,11 @@ services:
       POSTGRES_INITDB_ARGS: "--no-locale -E UTF-8"
       TZ: Asia/Tokyo
     command: postgres -c max_prepared_transactions=1 -c log_statement=all
+    healthcheck:
+      test: "pg_isready || exit 1"
+      interval: 1s
+      timeout: 5s
+      retries: 10
   mysql:
     image: mysql:8.4
     container_name: mysql2pc
@@ -19,3 +24,8 @@ services:
       MYSQL_DATABASE: xadb
       TZ: Asia/Tokyo
     command: mysqld --general_log=on --general_log_file=/var/lib/mysql/query.log --log_timestamps=SYSTEM
+    healthcheck:
+      test: "mysqladmin ping || exit 1"
+      interval: 1s
+      timeout: 5s
+      retries: 50
