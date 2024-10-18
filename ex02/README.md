@@ -58,11 +58,11 @@ go run . ex0201
 
 - *sql.Conn の `Close()` でプールに返却されるパターン。トランザクションありでINSERTを連続して2回実行する例
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0201.go#L11-L59
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0201.go#L11-L59
 
 - 処理の流れを追いやすくするため、実装は関心事だけに絞り、ログ出力によりコネクションプールの状態を確認
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0202.go#L9-L24
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0202.go#L9-L24
 
 ```shell
 go run . ex0202
@@ -76,7 +76,7 @@ go run . ex0202
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
   - [プールの各ステータス](https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196)
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/main.go#L70-L73
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/main.go#L70-L73
 
 ## \*sql.DB/*sql.Tx
 
@@ -84,7 +84,7 @@ https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d60102
 
 ### Commit
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0203.go#L12-L20
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0203.go#L12-L20
 
 ```shell
 go run . ex0203
@@ -99,7 +99,7 @@ go run . ex0203
 
 ### Rollback
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0204.go#L12-L18
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0204.go#L12-L18
 
 ```shell
 go run . ex0204
@@ -117,7 +117,7 @@ go run . ex0204
 - \*sql.DBで `BeginTx()` した場合と*sql.Connで `BeginTx()` した場合とで挙動が異なる
 - \*sql.Connで `BeginTx()` した場合は `Commit()` と `Rollback()` ではプールに返却されず、*sql.Connの `Close()` するまでは返却されない
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0205.go#L12-L23
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0205.go#L12-L23
 
 ```shell
 go run . ex0205
@@ -135,7 +135,7 @@ go run . ex0205
 
 - 実行毎にプールに返却されるパターン
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0206.go#L12-L18
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0206.go#L12-L18
 
 ```shell
 go run . ex0206
@@ -152,7 +152,7 @@ go run . ex0206
 
 - `row.Scan()` でプールに返却されるパターン
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0207.go#L12-L20
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0207.go#L12-L20
 
 ```shell
 go run . ex0207
@@ -168,7 +168,7 @@ go run . ex0207
 - `rows.Next()` が false になったタイミングでプールに返却されるパターン
   - 処理の流れを追いやすくするため、for文を使わずにループを展開
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0208.go#L14-L32
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0208.go#L14-L32
 
 ```shell
 go run . ex0208
@@ -181,7 +181,7 @@ go run . ex0208
 
 - もし仮に false になるまで `rows.Next()` を呼ばなかった場合は `rows.Close()` のタイミングで返却されることになる
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0209.go#L14-L26
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0209.go#L14-L26
 
 ```shell
 go run . ex0209
@@ -196,7 +196,7 @@ go run . ex0209
 
 - DB.Closeはプールにあるコネクションをクローズする
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0210.go#L9-L21
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0210.go#L9-L21
 
 ```shell
 go run . ex0210
@@ -210,7 +210,7 @@ go run . ex0210
 - OpenとIdleも0になっている
 - ただし、InUseのコネクションはクローズされない
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/ex0211.go#L9-L35
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/ex0211.go#L9-L35
 
 ```shell
 go run . ex0211
