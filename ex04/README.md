@@ -9,7 +9,9 @@
 
 データベースはPostgreSQLとMySQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex04/docker-compose.yml#L1-L21
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/docker-compose.yml#L2-L11
+
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex04/docker-compose.yml#L17-L26
 
 - PostgreSQLで2相コミットを有効化するために `max_prepared_transactions` を 1 にする
   - `max_prepared_transactions` は同時にプリペアド状態にできるトランザクションの最大数

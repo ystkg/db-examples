@@ -9,7 +9,7 @@
 
 データベースはPostgreSQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/731864acf90f1c208367831980a1df57d601021f/ex02/docker-compose.yml#L1-L10
+https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/docker-compose.yml#L2-L10
 
 ### データベースのコンテナ起動
 
