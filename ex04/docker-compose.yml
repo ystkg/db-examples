@@ -10,7 +10,7 @@ services:
       TZ: Asia/Tokyo
     command: postgres -c max_prepared_transactions=1 -c log_statement=all
     healthcheck:
-      test: "pg_isready || exit 1"
+      test: "pg_isready -U postgres || exit 1"
       interval: 1s
       timeout: 5s
       retries: 10
@@ -25,7 +25,7 @@ services:
       TZ: Asia/Tokyo
     command: mysqld --general_log=on --general_log_file=/var/lib/mysql/query.log --log_timestamps=SYSTEM
     healthcheck:
-      test: "mysql -u root -pexpasswd xadb -e 'SELECT 1' || exit 1"
+      test: "MYSQL_PWD=expasswd mysql xadb -e 'SELECT 1' || exit 1"
       interval: 2s
       timeout: 5s
       retries: 50
