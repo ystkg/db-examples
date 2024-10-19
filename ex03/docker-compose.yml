@@ -9,7 +9,7 @@ services:
       POSTGRES_INITDB_ARGS: "--no-locale -E UTF-8"
       TZ: Asia/Tokyo
     healthcheck:
-      test: "pg_isready || exit 1"
+      test: "pg_isready -U postgres || exit 1"
       interval: 1s
       timeout: 5s
       retries: 10
@@ -23,7 +23,7 @@ services:
       MYSQL_DATABASE: stmtdb
       TZ: Asia/Tokyo
     healthcheck:
-      test: "mysqladmin ping || exit 1"
+      test: "MYSQL_PWD=expasswd mysql stmtdb -e 'SELECT 1' || exit 1"
       interval: 1s
       timeout: 5s
       retries: 50
