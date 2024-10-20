@@ -10,9 +10,9 @@
 
 データベースはPostgreSQLとMySQLのDockerコンテナを使用する
 
-https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex01/docker-compose.yml#L2-L10
+https://github.com/ystkg/db-examples/blob/c27e165dd1cb96df3aaefa63fb4d596405a1c9da/ex01/docker-compose.yml#L2-L10
 
-https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex01/docker-compose.yml#L16-L24
+https://github.com/ystkg/db-examples/blob/c27e165dd1cb96df3aaefa63fb4d596405a1c9da/ex01/docker-compose.yml#L16-L24
 
 ### データベースのコンテナ起動
 
