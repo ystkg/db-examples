@@ -6,7 +6,7 @@ services:
       - 127.0.0.1:5432:5432
     environment:
       POSTGRES_PASSWORD: expasswd
-      POSTGRES_INITDB_ARGS: "--no-locale -E UTF-8"
+      POSTGRES_INITDB_ARGS: "--no-locale -E UTF-8 -A scram-sha-256"
       TZ: Asia/Tokyo
     command: postgres -c max_prepared_transactions=1 -c log_statement=all
     healthcheck:
