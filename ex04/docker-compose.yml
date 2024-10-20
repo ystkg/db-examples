@@ -25,7 +25,7 @@ services:
       TZ: Asia/Tokyo
     command: mysqld --general_log=on --general_log_file=/var/lib/mysql/query.log --log_timestamps=SYSTEM
     healthcheck:
-      test: "MYSQL_PWD=expasswd mysql xadb -e 'SELECT 1' || exit 1"
+      test: "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql $$MYSQL_DATABASE -e 'SELECT 1' || exit 1"
       interval: 2s
       timeout: 5s
       retries: 50

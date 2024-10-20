@@ -23,7 +23,7 @@ services:
       MYSQL_DATABASE: exdb
       TZ: Asia/Tokyo
     healthcheck:
-      test: "MYSQL_PWD=expasswd mysql exdb -e 'SELECT 1' || exit 1"
+      test: "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql $$MYSQL_DATABASE -e 'SELECT 1' || exit 1"
       interval: 1s
       timeout: 5s
       retries: 50
