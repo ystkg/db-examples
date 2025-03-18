@@ -74,7 +74,7 @@ go run . ex0202
 ```
 
 - `conn.Close()` の前後でInUseからIdleに移っている。つまりプールに返却されている
-  - [プールの各ステータス](https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1193-L1196)
+  - [プールの各ステータス](https://github.com/golang/go/blob/go1.24.1/src/database/sql/sql.go#L1201-L1204)
 
 https://github.com/ystkg/db-examples/blob/46035e1953a4c152ccdc3e5ec34cc0c9f5a057e4/ex02/main.go#L70-L73
 
@@ -233,9 +233,9 @@ go run . ex0211
 
 デフォルトでコネクションプールが使われるようになっているが、明示的にプールに戻すタイミングを制御する用途向けとして sql.Conn が用意されいる
 
-https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L2139-L2146
+https://github.com/golang/go/blob/go1.24.1/src/database/sql/sql.go#L2147-L2154
 
-https://github.com/golang/go/blob/go1.23.1/src/database/sql/sql.go#L1935-L1937
+https://github.com/golang/go/blob/go1.24.1/src/database/sql/sql.go#L1943-L1945
 
 ## 関連ドキュメント
 
